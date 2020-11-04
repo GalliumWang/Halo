@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% load static %}
+
+<main class="mt-5 pt-4">
+  <div class="container dark-grey-text mt-5">
+
+    <!--Grid row-->
+    <div class="row wow fadeIn">
+
+      <!--Grid column-->
+      <div class="col-md-4 mb-4">
+
+        <img referrerPolicy="no-referrer"
+          src="{{object.img_url}}"
+          class="img-fluid" alt="">
+
+      </div>
+      <!--Grid column-->
+
+      <!--Grid column-->
+      <div class="col-md-6 mb-4">
+
+        <!--Content-->
+        <div class="p-4">
+
+          <div class="mb-3">
+            <a href="">
+              <span class="badge purple mr-1">{{ object.get_category_display }}</span>
+            </a>
+          </div>
+
+          <p class="lead">
+            <!-- {% if object.discount_price %}
+            <span class="mr-1">
+              <del>${{ object.price }}</del>
+            </span>
+            <span>${{ object.discount_price }}</span>
+            {% else %}
+            <span>${{ object.price }}</span>
+            {% endif %} -->
+            <span class="mr-1" STYLE="color: rgb(130, 40, 204); font-size:40pt">
+              {{ object.title }}
+            </span>
+          </p>
+
+          <p class="lead font-weight-bold">简介</p>
+
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ object.description }}</p>
+          {% comment %} <form class="d-flex justify-content-left">
+            <!-- Default input -->
+            <input type="number" value="1" aria-label="Search"
+              class="form-control" style="width: 100px">
+            <button class="btn btn-primary btn-md my-0 p" type="submit">
+              Add to cart
+              <i class="fas fa-shopping-cart ml-1"></i>
+            </button>
+
+          </form> {% endcomment %}
+          <br>
+          <a href="{{ object.get_add_to_bookmark_url }}"
+            class="btn btn-primary btn-md my-0 p"
+            style="margin-left:80px;margin-right:80px;">
+            加入收藏
+            <i class="fas fa-heart"></i>
+          </a>
+          <a href="{{ object.get_remove_from_bookmark_url }}" class="btn
+            btn-danger
+            btn-md my-0 p">
+            移出收藏
+          </a>
+
+        </div>
+        <!--Content-->
+
+      </div>
+      <!--Grid column-->
+
+    </div>
+    <!--Grid row-->
+
+    <hr>
+
+
+    
+
+  
+<div class="container text-center ">
+  <br>
+  <h4 class="my-4 h4">相关影人</h4>
+  <br>
+  <div class="row justify-content-center">
+    {% for relationship in object.get_relationship %}
+
+    <div class="card col-2 ml-3 mr-3">
+      <div class="view overlay">
+        <img referrerPolicy="no-referrer" class="card-img-top" src="{{relationship.get_people.img_url}}"
+          alt="Card image cap">
+        <a href="#!">
+          <div class="mask rgba-white-slight"></div>
+        </a>
+      </div>
+      <div class="card-body">
+        <h4 class="card-title">    {{relationship.get_people.name}}</h4>
+        <p class="card-text">{{relationship.role}}</p>
+        <a href="{{relationship.get_people.get_absolute_url}}" class="btn btn-light">查看</a>
+      </div>
+    </div>
+
+      {% if forloop.counter|divisibleby:5 %}
+        {% if not forloop.last %}
+          </div>
+          <br>
+          <br>
+          <div class="row">
+        {% endif %}
+      {% endif %}
+
+    {% empty %}
+    <div class="card col-4 ml-3 mr-3">
+      <div class="view overlay">
+        <img class="card-img-top" src="/static/img/qmark.webp"
+          alt="Card image cap">
+        <a href="#!">
+          <div class="mask rgba-white-slight"></div>
+        </a>
+      </div>
+      <div class="card-body">
+        <h4 class="card-title">    暂无相关影人信息</h4>
+        <!-- <p class="card-text">请等待</p> -->
+        <a href="{{relationship.get_people.get_absolute_url}}" class="btn btn-light">查看</a>
+      </div>
+    </div>
+    
+    {% endfor %}
+  </div>
+</div>
+
+
+
+<br>
+<br>
+
+
+
+
+    <div class="row d-flex justify-content-center wow fadeIn">
+
+      <!--Grid column-->
+      <div class="col-md-6 text-center">
+
+        <h4 class="my-4 h4">用户评论</h4>
+
+        <p>如果您喜欢该影片
+          欢迎留下您自己的看法
+        </p>
+
+      </div>
+      <!--Grid column-->
+
+    </div>
+    <ul class="list-group">
+      {% if object.get_comments %}
+      {% for i in object.get_comments %}
+      <li class="list-group-item d-flex justify-content-between
+        align-items-center">
+        {{i.content}}
+        <span class="badge badge-primary badge-pill">{{i.user}}</span>
+      </li>
+      {% endfor %}
+      {% else %}
+      <a href="#"
+        class="btn btn-light btn-md my-0 p">
+        暂无影评
+      </a>
+      {% endif %}
+    </ul>
+  </div>
+
+
+  <h2 class="my-5 h2 text-center">写评论</h2>
+  <div class="flex-center mt-4">
+      <div class="col-md-7 mb-4">
+        <div class="card">
+          <form method="POST" class="card-body" action="/add-comment/{{object.slug}}">
+            {% csrf_token %}
+
+            <h3>评论内容</h3>
+
+            <div class="md-form mb-5">
+              <input type='text' placeholder='输入评论内容'
+                name='content'
+                class='form-control' required/>
+            </div>
+
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input"
+                name="anonymous" id="anonymous">
+              <label class="custom-control-label" for="anonymous">匿名评论</label>
+            </div>
+
+            <div class="md-form mb-5">
+              <input type='text'
+                name='slug' hidden
+                class='form-control' value="{{object.slug}}"/>
+            </div>
+
+          </div>
+          <hr>
+
+
+          <button class="btn btn-primary btn-lg btn-block" type="submit">发布评论</button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+</main>
+
+{% endblock content %}

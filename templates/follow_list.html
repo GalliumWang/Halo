@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    <div class="container">
+
+        <div class="table-responsive text-nowrap">
+            <h2>我关注的影人</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">姓名</th>
+                        <th scope="col">出生地</th>
+                        <th scope="col">出生日期</th>
+                        <th scope="col">查看</th>
+                        <th scope="col">取消关注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for follow_item in object.items.all %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th> <!--顺序计数-->
+                        <td>{{ follow_item.PeopleItem.name }}</td>
+                        <td>{{ follow_item.PeopleItem.birthplace }}</td>
+                        <td>
+                            {{ follow_item.PeopleItem.birthday }}
+                        </td>
+                        <td>
+                            <a
+                                href="{{follow_item.PeopleItem.get_absolute_url}}"
+                                class="btn
+                                btn-light btn-default btn-sm">查看</a>
+                        </td>
+                        <td>
+                            <a style='color: red;'
+                                href="{{follow_item.PeopleItem.get_unfollow_people_url_sp}}">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="5">
+                            <a class='btn btn-warning float-right ml-2'
+                                href='/checkout/'>生成相关推荐</a>
+                            <a class='btn btn-primary float-right' href='/'>我的数据分析</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</main>
+
+{% endblock content %}
