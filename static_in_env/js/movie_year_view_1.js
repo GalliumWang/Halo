@@ -22,8 +22,8 @@ function show() {
 
     // load data asynchronously, call update when done.
     d3.queue()
-        .defer(d3.csv, "/static/csv/test.csv")
-        .defer(d3.csv, "/static/csv/test1.csv")
+        .defer(d3.csv, "/static/csv/num.csv")
+        .defer(d3.csv, "/static/csv/percent.csv")
         .await(function (error, adjusted, unadjusted) {
             // set the data to the global variables
             adjustedData = adjusted;
