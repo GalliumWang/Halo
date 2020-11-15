@@ -10,10 +10,10 @@ import requests
 
 # TODO: add image cache
 
-url = 'https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p33988.webp'
-r2 = requests.get(url)
-with open('tupian'+'.jpg', 'wb+') as f:  # 循环写入图片
-    f.write(r2.content)
+# url = 'https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p33988.webp'
+# r2 = requests.get(url)
+# with open('tupian'+'.jpg', 'wb+') as f:  # 循环写入图片
+#     f.write(r2.content)
 
 
 CATEGORY_CHOICES = (
@@ -59,6 +59,12 @@ class Item(models.Model):
     tags = models.CharField(max_length=100, default="NULL")  # 电影名字
     category = models.CharField(max_length=50, default="NULL")  # 电影类别
     slug = models.SlugField()  # 唯一标识符
+
+    def get_node_info(self):
+        name = f'{self.title}'
+        sex = f'{self.slug}/M'
+
+        return [name, sex]
 
     def get_comments(self):
         comments = Comments.objects.filter(movie_slug=self.slug)
@@ -128,6 +134,12 @@ class PeopleItem(models.Model):
     description = models.TextField(null=True)  # 电影概述
 
     slug = models.SlugField()  # 唯一标识符
+
+    def get_node_info(self):
+        name = f'{self.name}'
+        sex = f'{self.slug}/P'
+
+        return [name, sex]
 
     def get_country(self):
         raw_str = f'{self.birthplace}'

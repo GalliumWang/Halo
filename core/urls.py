@@ -18,7 +18,8 @@ from .views import (
     unfollow_people,
     follow_list,
     unfollow_people_sp,
-    movie_year_view_1
+    movie_year_view_1,  # data visualization
+    relationship_view_people  # data visualization
 )
 
 app_name = 'core'
@@ -50,7 +51,10 @@ urlpatterns = [
     path('unfollow-people-sp/<slug>/',
          unfollow_people_sp, name='unfollow-people-sp'),
 
-    path('movie_year_view_1/', movie_year_view_1, name='movie_year_view_1')
+    path('movie_year_view_1/', movie_year_view_1, name='movie_year_view_1'),
+
+    path('relationship_view_people/<slug>', relationship_view_people,
+         name='relationship_view_people')
 
 
 
