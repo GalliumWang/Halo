@@ -60,9 +60,19 @@ class Item(models.Model):
     category = models.CharField(max_length=50, default="NULL")  # 电影类别
     slug = models.SlugField()  # 唯一标识符
 
+    # def get_node_info(self):
+    #     name = f'{self.title}'
+    #     sex = self.get_img_url()
+    #     url = self.get_absolute_url()
+
+    #     return [name, sex, url]
+
+    def get_treeview_url(self):
+        return f"/relationship_view_movie/{self.slug}"
+
     def get_node_info(self):
         name = f'{self.title}'
-        sex = f'{self.slug}/M'
+        sex = self.get_img_url()
         url = self.get_absolute_url()
 
         return [name, sex, url]
@@ -109,14 +119,15 @@ class Item(models.Model):
 
     # return true label
     def get_img_url(self):
-        img_url = f"{self.img_url}"
-        img_name = img_url.split('/')[-1]
-        # urllib.request.urlretrieve(img_url, "./static_in_env/img/"+img_name)
+        # img_url = f"{self.img_url}"
+        # img_name = img_url.split('/')[-1]
+        # # urllib.request.urlretrieve(img_url, "./static_in_env/img/"+img_name)
+        # # return "/static/img/"+img_name
+        # r2 = requests.get(img_url)
+        # with open("./static_in_env/img/"+img_name, 'wb+') as f:
+        #     f.write(r2.content)
         # return "/static/img/"+img_name
-        r2 = requests.get(img_url)
-        with open("./static_in_env/img/"+img_name, 'wb+') as f:
-            f.write(r2.content)
-        return "/static/img/"+img_name
+        return f"{self.img_url}"
 
 
 class PeopleItem(models.Model):
@@ -136,9 +147,12 @@ class PeopleItem(models.Model):
 
     slug = models.SlugField()  # 唯一标识符
 
+    def get_treeview_url(self):
+        return f"/relationship_view_people/{self.slug}"
+
     def get_node_info(self):
         name = f'{self.name}'
-        sex = f'{self.slug}/P'
+        sex = self.get_img_url()
         url = self.get_absolute_url()
 
         return [name, sex, url]
@@ -181,14 +195,15 @@ class PeopleItem(models.Model):
         return MoviePeopleRelationship.objects.filter(people_slug=self.slug)
 
     def get_img_url(self):
-        img_url = f"{self.img_url}"
-        img_name = img_url.split('/')[-1]
-        # urllib.request.urlretrieve(img_url, "./static_in_env/img/"+img_name)
+        # img_url = f"{self.img_url}"
+        # img_name = img_url.split('/')[-1]
+        # # urllib.request.urlretrieve(img_url, "./static_in_env/img/"+img_name)
+        # # return "/static/img/"+img_name
+        # r2 = requests.get(img_url)
+        # with open("./static_in_env/img/"+img_name, 'wb+') as f:
+        #     f.write(r2.content)
         # return "/static/img/"+img_name
-        r2 = requests.get(img_url)
-        with open("./static_in_env/img/"+img_name, 'wb+') as f:
-            f.write(r2.content)
-        return "/static/img/"+img_name
+        return f"{self.img_url}"
 
 
 class Comments(models.Model):

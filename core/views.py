@@ -27,7 +27,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 # image ratate
 
 
-deepest_layer = 3
+deepest_layer = 5
 
 
 def recurse_write_queue_people(node, id, pid, clayer, flayer, outfile, added_node):
@@ -40,6 +40,8 @@ def recurse_write_queue_people(node, id, pid, clayer, flayer, outfile, added_nod
     #     return
     # else:
     #     added_node.append(node.get_node_info()[0])
+
+    # added_node.append(node.get_node_info()[0])
 
     if(pid is None):
         outfile.writerow([str(id[0]), "", node.get_node_info()
@@ -101,6 +103,55 @@ def recurse_write_queue_people(node, id, pid, clayer, flayer, outfile, added_nod
     #             id[0] += 1
 
 
+def recurse_write_queue_movie(node, id, pid, clayer, flayer, outfile, added_node):
+
+    # added_node.append(node.get_node_info()[0])
+    if(pid is None):
+        outfile.writerow([str(id[0]), "", node.get_node_info()
+                          [0][:5], node.get_node_info()[1], node.get_node_info()[2]])
+    else:
+        outfile.writerow([str(id[0]), str(pid), node.get_node_info()[
+                         0][:5], node.get_node_info()[1], node.get_node_info()[2]])
+
+    if(clayer > flayer):
+        return
+
+    origin_id = id[0]
+    id[0] += 1
+    rships = node.get_relationship()
+
+    add_num = 0
+
+    leaf_num = flayer-clayer
+
+    if(clayer != 0 and flayer-clayer > 1):
+        leaf_num += random.randint(-leaf_num+1, leaf_num-1)
+
+    rships = list(rships)
+
+    random.shuffle(rships)
+
+    for rship in rships:
+        if(add_num < leaf_num):
+            if(clayer % 2 == 1):
+                # write movie
+                temp_node = rship.get_movie()
+            else:
+                temp_node = rship.get_people()
+
+            if(temp_node.get_node_info()[0] in added_node):
+                continue
+            else:
+                added_node.append(temp_node.get_node_info()[0])
+
+            recurse_write_queue_movie(
+                temp_node, id, origin_id, clayer + 1, flayer, outfile, added_node)
+            id[0] += 1
+            add_num += 1
+        else:
+            break
+
+
 def relationship_view_people(request, slug):
     layer = deepest_layer
     current_layer = 0
@@ -114,9 +165,10 @@ def relationship_view_people(request, slug):
         writer = csv.writer(outfile, delimiter=',',
                             quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
-        writer.writerow(['id', 'parentId', 'name', 'description', 'url'])
+        writer.writerow(['id', 'parentId', 'name',
+                         'description', 'url'])
 
-        added_node.append(root_people.get_node_info()[0][:5])
+        added_node.append(root_people.get_node_info()[0])
         recurse_write_queue_people(
             root_people, id_list, None, current_layer, layer, writer, added_node)
 
@@ -148,6 +200,29 @@ def relationship_view_people(request, slug):
             'item': root_people
         }
         return render(request, "relationship_view_people.html", context)
+
+
+def relationship_view_movie(request, slug):
+    layer = deepest_layer
+    current_layer = 0
+    root_people = Item.objects.get(slug=slug)
+    id_list = [1]
+    added_node = []
+    with open('./static_in_env/csv/relationship_view_movie.csv', 'w', newline='', encoding='utf-8') as outfile:
+        writer = csv.writer(outfile, delimiter=',',
+                            quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        writer.writerow(['id', 'parentId', 'name',
+                         'description', 'url'])
+
+        added_node.append(root_people.get_node_info()[0])
+        recurse_write_queue_movie(
+            root_people, id_list, None, current_layer, layer, writer, added_node)
+
+        context = {
+            'item': root_people
+        }
+        return render(request, "relationship_view_movie.html", context)
 
 
 def create_ref_code():

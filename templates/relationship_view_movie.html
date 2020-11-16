@@ -18,7 +18,7 @@
     <!-- <script src="./js/D03-02.js"></script>
         <link rel="stylesheet" href="./css/D03-02.css" type="text/css">
     </head> -->
-    <script src="/static/js/relationship_view_people.js"></script>
+    <script src="/static/js/relationship_view_movie.js"></script>
     <link rel="stylesheet" href="/static/css/relationship_view_people.css"
       type="text/css">
 
@@ -38,7 +38,7 @@
   </head>
   <body>
 
-    <div class="container dark-grey-text mt-5 col-md-12" id="infoBox">
+    <div class="container dark-grey-text mt-5 col-md-11" id="infoBox">
 
       <!--Grid row-->
       <div class="row wow fadeIn">
@@ -49,12 +49,11 @@
             alt="Card image cap"
             onerror="this.src='/static/img/peopleAlt.png';">
           <div class="card-body">
-            <h4 class="card-title"><a>{{item.name}}</a></h4>
-            <p class="card-text">{{item.name}}</p>
+            <h4 class="card-title"><a>{{item.title}}</a></h4>
+            <p class="card-text">{{item.title}}</p>
             <a href="#" class="btn btn-primary">查看主页</a>
           </div>
         </div>
-
         <div class="col-md-4 mb-4">
           <div class="p-4">
             <a href="#"
@@ -65,7 +64,7 @@
             <p class="lead">
               <span class="mr-1" STYLE="color: rgb(130, 40, 204);
                 font-size:20pt">
-                {{item.name}}
+                {{item.title}}
               </span>
               <br>
             </p>
@@ -74,9 +73,9 @@
 
             <p id="simName">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在相邻局部节点网络中
               <br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;与您喜好最符合的影人为R1，其相似度为R2%
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;与您喜好最符合的电影为R1，其相似度为R2%
               <br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;与您喜好最符合的电影为R3，其相似度为R4%
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;与您喜好最符合的影人为R3，其相似度为R4%
             </p>
             {% comment %} <form class="d-flex justify-content-left">
               <!-- Default input -->
@@ -109,6 +108,8 @@
         <!--Grid column-->
 
         <div class="card mr-4" id="refInfo">
+
+          <!-- Card image -->
           <img
             id="refImg"
             referrerPolicy="no-referrer"
@@ -116,12 +117,21 @@
             src="/static/img/peopleAlt.png"
             alt="Card image cap"
             onerror="this.src='/static/img/peopleAlt.png';">
+
+          <!-- Card content -->
           <div class="card-body">
+
+            <!-- Title -->
             <h4 class="card-title"><a id="refName">R1</a></h4>
+            <!-- Text -->
+            <!-- <p id="refDes" class="card-text">R1</p> -->
             <a id="refDes" href="" class="btn btn-primary">跳转该节点</a>
+            <!-- Button -->
             <a id="refLink" href="" class="btn btn-primary">查看主页</a>
           </div>
         </div>
+
+
 
         <div class="card" id="refInfo2">
           <img
@@ -137,7 +147,6 @@
             <a id="refLink2" href="" class="btn btn-primary">查看主页</a>
           </div>
         </div>
-
 
 
 

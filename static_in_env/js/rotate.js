@@ -99,7 +99,7 @@ function rotateImage(e) {
 
     console.log(imageBeingRotated);
     //$(imageBeingRotated).css('transform', 'rotate(' + rotateAngle + 'rad)');
-    $(imageBeingRotated).attr('transform', 'translate(880,480) rotate(' + rotateAngle / Math.PI * 360 + ',0,0)');
+    $(imageBeingRotated).attr('transform', 'translate(747.5,480) rotate(' + rotateAngle / Math.PI * 360 + ',0,0)');
 
 
     // $(imageBeingRotated).css('transform', 'translate(880,580)');

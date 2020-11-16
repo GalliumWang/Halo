@@ -1,15 +1,82 @@
 id,parentId,name,description,url
-1,,宫崎骏 H,1054439/P,/people/1054439/
-2,1,魔女宅急便,1307811/M,/movie/1307811/
-3,2,埃迪·弗里,1084103/P,/people/1084103/
-4,3,机动战士高,1767002/M,/movie/1767002/
-7,2,津贺有子 ,1386651/P,/people/1386651/
-9,2,马特·K·,1386673/P,/people/1386673/
-12,1,借东西的小,4202302/M,/movie/4202302/
-13,12,大卫·亨瑞,1009264/P,/people/1009264/
-14,13,老爸绑架案,3395454/M,/movie/3395454/
-18,1,名侦探福尔,24522929/M,/movie/24522929/
-19,18,片渊须直 ,1314050/P,/people/1314050/
-20,19,阿莱蒂公主,2132041/M,/movie/2132041/
-23,18,宫崎骏 H,1054439/P,/people/1054439/
-24,23,起风了 風,6791750/M,/movie/6791750/
+1,,宫崎骏 H,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p616.webp,/people/1054439/
+2,1,风之谷 風,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p1917567652.webp,/movie/1291585/
+3,2,富永美伊奈,https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p42569.webp,/people/1003704/
+4,3,浪客剑心：,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2394734873.webp,/movie/1763916/
+5,4,大塚明夫 ,https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p10168.webp,/people/1035615/
+6,5,机动战士高,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2499505254.webp,/movie/26919026/
+10,3,浪客剑心：,https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2503208638.webp,/movie/1763899/
+11,10,上田祐司 ,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p27942.webp,/people/1019902/
+12,11,宠物小精灵,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2260915025.webp,/movie/4735182/
+15,10,帕米拉·里,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1480227164.31.webp,/people/1168874/
+16,15,蓝精灵：寻,https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2443742358.webp,/movie/19899718/
+20,3,棒球英豪 ,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2518595090.webp,/movie/3126141/
+21,20,金春智子 ,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1443327307.73.webp,/people/1035344/
+22,21,棒球英豪-,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2518596281.webp,/movie/3035711/
+26,3,加州危机 ,https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2516625568.webp,/movie/5031412/
+27,26,西久保瑞穗,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p25883.webp,/people/1015961/
+28,27,宫本武藏：,https://img1.doubanio.com/view/photo/s_ratio_poster/public/p1762816109.webp,/movie/3258799/
+31,26,盐泽兼人 ,https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p4537.webp,/people/1008277/
+32,31,圣斗士星矢,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2509225685.webp,/movie/3435766/
+35,26,富田耕生 ,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1457782375.54.webp,/people/1008538/
+36,35,铁人28 ,https://img3.doubanio.com/view/subject/l/public/s3653294.jpg,/movie/3077579/
+41,2,八奈见乘儿,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p30524.webp,/people/1050874/
+42,41,奔向地球 ,https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2547686069.webp,/movie/4730658/
+43,42,户谷公次 ,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1360946335.34.webp,/people/1012921/
+44,43,夏季之门 ,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2205645892.webp,/movie/4823377/
+47,42,增山江威子,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1388051623.85.webp,/people/1046660/
+48,47,鲁邦三世：,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2476837212.webp,/movie/3441031/
+52,41,龙珠剧场版,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2195406581.webp,/movie/3059208/
+53,52,安德莉亚·,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1507529263.32.webp,/people/1125325/
+54,53,芭比梦幻仙,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2248666301.webp,/movie/2082025/
+57,52,纳谷悟朗 ,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p25860.webp,/people/1042997/
+58,57,骷髅13 ,https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2526604098.webp,/movie/3010584/
+62,41,北斗神拳 ,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2151606363.webp,/movie/4845417/
+63,62,铃木富子 ,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1361023019.14.webp,/people/1015528/
+64,63,龙珠Z剧场,https://img1.doubanio.com/view/subject/l/public/s24438979.jpg,/movie/3089224/
+68,41,被盗的鲁邦,https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2529517459.webp,/movie/3184621/
+69,68,加藤一彦 ,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1462850584.01.webp,/people/1019863/
+70,69,鲁邦三世V,https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2200294397.webp,/movie/3612790/
+75,2,家弓家正 ,https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1496311678.37.webp,/people/1043070/
+76,75,龙珠Z剧场,https://img1.doubanio.com/view/photo/s_ratio_poster/public/p486654227.webp,/movie/3089298/
+77,76,肖恩·施梅,https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1499167534.17.webp,/people/1138088/
+78,77,龙珠Z剧场,https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2195406938.webp,/movie/3529061/
+83,2,Cam C,https://img3.doubanio.com/f/movie/8dd0c794499fe925ae2ae89ee30cd225750457b4/pics/movie/celebrity-default-medium.png,/people/1076005/
+84,83,蓝精灵与魔,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p1305833766.webp,/movie/5053548/
+85,84,Durga,https://img3.doubanio.com/f/movie/8dd0c794499fe925ae2ae89ee30cd225750457b4/pics/movie/celebrity-default-medium.png,/people/1125777/
+88,83,超狗任务 ,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2315904843.webp,/movie/1958063/
+89,88,贝茨·怀尔,https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1443260714.77.webp,/people/1176308/
+90,89,神秘河 M,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p852967070.webp,/movie/1307748/
+93,88,Micha,https://img3.doubanio.com/f/movie/8dd0c794499fe925ae2ae89ee30cd225750457b4/pics/movie/celebrity-default-medium.png,/people/1189328/
+94,93,长毛狗 T,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p643554394.webp,/movie/1522327/
+97,88,克里斯·安,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p57271.webp,/people/1237217/
+98,97,萨米大冒险,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2009535643.webp,/movie/10540210/
+102,83,极乐世界 ,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2541549161.webp,/movie/1923406/
+103,102,Micha,https://img3.doubanio.com/f/movie/8dd0c794499fe925ae2ae89ee30cd225750457b4/pics/movie/celebrity-default-medium.png,/people/1086161/
+104,103,小尼莫梦乡,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p1741008923.webp,/movie/3174687/
+108,83,月球大冒险,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2195131190.webp,/movie/2090440/
+109,108,斯科特·门,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p57925.webp,/people/1120547/
+110,109,无敌破坏王,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p1735642656.webp,/movie/6534248/
+113,108,崔沃·加格,https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p48197.webp,/people/1050018/
+114,113,海龟 Lo,https://img1.doubanio.com/view/photo/s_ratio_poster/public/p877426249.webp,/movie/1778500/
+118,83,妙探雙龍 ,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2348658100.webp,/movie/1305442/
+119,118,苗侨伟 K,https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p2247.webp,/people/1115415/
+120,119,岁月风云之,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2043222004.webp,/movie/1300575/
+125,2,里夫·霍顿,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p55562.webp,/people/1105833/
+126,125,终极细胞战,https://img1.doubanio.com/view/photo/s_ratio_poster/public/p1453955007.webp,/movie/1306513/
+127,126,Joyce,https://img3.doubanio.com/f/movie/8dd0c794499fe925ae2ae89ee30cd225750457b4/pics/movie/celebrity-default-medium.png,/people/1111403/
+128,127,吸血鬼猎人,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p987758494.webp,/movie/3055044/
+133,2,胡立成 L,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1373518175.43.webp,/people/1331134/
+134,133,怪兽电力公,https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2513247938.webp,/movie/1291579/
+135,134,李·昂克里,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p13830.webp,/people/1022678/
+136,135,寻梦环游记,https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2503997609.webp,/movie/20495023/
+142,1,虞美人盛开,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p1335271624.webp,/movie/5262338/
+143,142,长泽雅美 ,https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1483767998.76.webp,/people/1018667/
+144,143,机器人竞赛,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p620216084.webp,/movie/1418085/
+145,144,荒川良良 ,https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p18258.webp,/people/1187780/
+146,145,如龙电影版,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p1047996886.webp,/movie/2039751/
+150,143,假面饭店 ,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2537294232.webp,/movie/27126336/
+151,150,生濑胜久 ,https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p56518.webp,/people/1029321/
+152,151,恋爱回旋 ,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2515437624.webp,/movie/26972275/
+157,142,石田百合子,https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p8439.webp,/people/1028681/
+158,157,真救世主传,https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2194222201.webp,/movie/2121601/

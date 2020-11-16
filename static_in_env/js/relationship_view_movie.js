@@ -26,7 +26,7 @@ function show() {
     var currentRoot; // the currentData being shown
 
     // load the data
-    d3.csv('/static/csv/relationship_view_people.csv', function (loaded) {
+    d3.csv('/static/csv/relationship_view_movie.csv', function (loaded) {
         // convert the loaded data to a nested structure, and convert
         // it to a tree with the specific settings.
         root = stratify(loaded);
@@ -54,17 +54,15 @@ function show() {
         setTimeout(replaceSimRate, 3, tempStr)
 
 
-
         var tempStr1 = neighPeople[0].data.description
         var tempStr2 = neighPeople[0].data.name
         var tempAry = neighPeople[0].data.url.split("/")
         //alert(tempAry);
-        var tempStr3 = "/relationship_view_people/" + tempAry[tempAry.length - 2]
+        var tempStr3 = "/relationship_view_movie/" + tempAry[tempAry.length - 2]
         var tempStr4 = neighPeople[0].data.url
 
 
         setTimeout(replaceRefInfo, 3, tempStr1, tempStr2, tempStr3, tempStr4)
-
 
 
         //TODO
@@ -86,12 +84,9 @@ function show() {
         var tempStr22 = neighMovie[0].data.name
         var tempAry2 = neighMovie[0].data.url.split("/")
         //alert(tempAry);
-        var tempStr33 = "/relationship_view_movie/" + tempAry2[tempAry2.length - 2]
+        var tempStr33 = "/relationship_view_people/" + tempAry2[tempAry2.length - 2]
         var tempStr44 = neighMovie[0].data.url
         setTimeout(replaceRefInfo2, 3, tempStr11, tempStr22, tempStr33, tempStr44)
-
-
-
 
 
         colorGroups.forEach(function (group, i) {
@@ -298,7 +293,6 @@ function replaceSimPeople(str1, str2) {
 }
 
 
-
 function replaceSimPeople2(str1, str2) {
     while (!window.simNameE) {
         simNameE = document.getElementById("simName")
@@ -307,8 +301,6 @@ function replaceSimPeople2(str1, str2) {
 
     simNameE.innerText = simNameE.innerText.replace("R3", str1).replace("R4", str2);
 }
-
-
 
 
 
@@ -321,9 +313,6 @@ function replaceSimRate(str1) {
 
     simRateE.innerText = simRateE.innerText.replace("R1", str1);
 }
-
-
-
 
 function replaceRefInfo(str1, str2, str3, str4) {
 

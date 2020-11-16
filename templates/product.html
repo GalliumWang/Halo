@@ -64,14 +64,21 @@
           <br>
           <a href="{{ object.get_add_to_bookmark_url }}"
             class="btn btn-primary btn-md my-0 p"
-            style="margin-left:80px;margin-right:80px;">
+            style="margin-left:40px;margin-right:20px;">
             加入收藏
             <i class="fas fa-heart"></i>
           </a>
           <a href="{{ object.get_remove_from_bookmark_url }}" class="btn
             btn-danger
-            btn-md my-0 p">
+            btn-md my-0 p"
+            style="margin-left:20px;margin-right:20px;">
             移出收藏
+          </a>
+          <a href="{{ object.get_treeview_url }}" class="btn
+            btn-secondary
+            btn-md my-0 p"
+            style="margin-left:20px;margin-right:20px;">
+            探索该电影
           </a>
 
         </div>

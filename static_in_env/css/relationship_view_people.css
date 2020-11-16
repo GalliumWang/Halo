@@ -31,3 +31,21 @@ body {
     opacity: 1;
     background-image: radial-gradient(circle at center center, #dcddf1, #efeff3), repeating-radial-gradient(circle at center center, #dcddf1, #dcddf1, 40px, transparent 80px, transparent 40px);
     background-blend-mode: multiply;}
+
+#output{
+    border: 50px solid #7796ed;
+    border-radius: 90px 90px;
+}
+
+#output{
+    border: 15px solid #7796ed;
+    border-radius: 90px 90px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+#infoBox{
+    border: 5px solid #b480cc;
+    border-radius: 90px;
+    padding: 100px;
+}

@@ -19,7 +19,8 @@ from .views import (
     follow_list,
     unfollow_people_sp,
     movie_year_view_1,  # data visualization
-    relationship_view_people  # data visualization
+    relationship_view_people,  # data visualization
+    relationship_view_movie  # data visualization
 )
 
 app_name = 'core'
@@ -54,7 +55,10 @@ urlpatterns = [
     path('movie_year_view_1/', movie_year_view_1, name='movie_year_view_1'),
 
     path('relationship_view_people/<slug>', relationship_view_people,
-         name='relationship_view_people')
+         name='relationship_view_people'),
+
+    path('relationship_view_movie/<slug>', relationship_view_movie,
+         name='relationship_view_movie')
 
 
 
