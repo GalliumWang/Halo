@@ -63,8 +63,9 @@ class Item(models.Model):
     def get_node_info(self):
         name = f'{self.title}'
         sex = f'{self.slug}/M'
+        url = self.get_absolute_url()
 
-        return [name, sex]
+        return [name, sex, url]
 
     def get_comments(self):
         comments = Comments.objects.filter(movie_slug=self.slug)
@@ -138,8 +139,9 @@ class PeopleItem(models.Model):
     def get_node_info(self):
         name = f'{self.name}'
         sex = f'{self.slug}/P'
+        url = self.get_absolute_url()
 
-        return [name, sex]
+        return [name, sex, url]
 
     def get_country(self):
         raw_str = f'{self.birthplace}'

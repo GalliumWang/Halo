@@ -27,5 +27,7 @@ circle {
 }
 
 body {
-    /*background-color: #cecece;*/
-}
+    background-color: #efeff3;
+    opacity: 1;
+    background-image: radial-gradient(circle at center center, #dcddf1, #efeff3), repeating-radial-gradient(circle at center center, #dcddf1, #dcddf1, 40px, transparent 80px, transparent 40px);
+    background-blend-mode: multiply;}

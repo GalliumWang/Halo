@@ -5,13 +5,14 @@ function show() {
     // Generic setup
     var margin = { top: 20, bottom: 20, right: 120, left: 120 },
         width = 1800 - margin.left - margin.right,
-        height = 1200 - margin.top - margin.bottom;
+        height = 1000 - margin.top - margin.bottom;
 
     var chart = d3.select(".chart")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
-        .attr("transform", "translate(" + (width / 2 + 100) + "," + height / 2 + ")");
+        .attr("transform", "translate(" + (width / 2 + 100) + "," + height / 2 + ")")
+        .attr("class", "rotated");
 
     // generic functions
     var tree = d3.tree()
@@ -33,6 +34,17 @@ function show() {
 
         // assign a group to the descendants of level 2, which we use for coloring
         var colorGroups = root.descendants().filter(function (node) { return node.depth === 2 });
+
+
+        var neighPeople = root.descendants().filter(function (node) { return node.depth === 2 });
+
+        //alert(neighPeople[Math.floor(Math.random() * neighPeople.length)].data.name);
+        //neighPeople[0].data.name
+
+        simNameE = document.getElementById("simName")
+        simNameE.innerText = simNameE.innerText.replace("replace1", neighPeople[0].data.name);
+
+
         colorGroups.forEach(function (group, i) {
             group.descendants().forEach(function (node) { node.data.group = i; })
         });
@@ -89,6 +101,7 @@ function show() {
         // number of nodes for our data elements, since that causes text and lines to
         // `jump` around. So we need to make sure we have the same amount of elements
         // and hide rendering the hidden ones.
+
         var toRender = root.descendants().map(function (el) {
             if (currentRootKV[el.data.id]) {
                 var newNode = currentRootKV[el.data.id];
@@ -155,6 +168,10 @@ function show() {
             .on("start", function (d) { !d.hidden ? d3.select(this).attr("display", "") : "" });
 
         nodesUpdate.select("text")
+            .on('click', function (d, i) {
+                //alert(d.data.url);
+                window.open(d.data.url);
+            })
             .attr("x", function (d) { return d.x < 180 === !d.children ? 6 : -6; })
             .text(function (d) { return d.data.name; })
             // we could also tween the anchor see chapter 2
@@ -171,7 +188,8 @@ function show() {
             .attr("transform", function (d) {
                 // called once to determine the target value, and tween the values
                 return "rotate(" + (d.x < 180 ? d.x - 90 : d.x + 90) + ")";
-            })
+            });
+
     }
 
     // on click hide the children, and color the specific node
@@ -208,3 +226,4 @@ function show() {
         return [radius * Math.cos(angle), radius * Math.sin(angle)];
     }
 }
+

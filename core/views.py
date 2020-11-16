@@ -27,7 +27,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 # image ratate
 
 
-deepest_layer = 5
+deepest_layer = 3
 
 
 def recurse_write_queue_people(node, id, pid, clayer, flayer, outfile, added_node):
@@ -36,13 +36,17 @@ def recurse_write_queue_people(node, id, pid, clayer, flayer, outfile, added_nod
     #     return
     # else:
     #     added_node.append(node.get_node_info()[0])
+    # if(node.get_node_info()[0] in added_node):
+    #     return
+    # else:
+    #     added_node.append(node.get_node_info()[0])
 
     if(pid is None):
         outfile.writerow([str(id[0]), "", node.get_node_info()
-                          [0][:5], node.get_node_info()[1]])
+                          [0][:5], node.get_node_info()[1], node.get_node_info()[2]])
     else:
         outfile.writerow([str(id[0]), str(pid), node.get_node_info()[
-                         0][:5], node.get_node_info()[1]])
+                         0][:5], node.get_node_info()[1], node.get_node_info()[2]])
 
     if(clayer > flayer):
         return
@@ -110,8 +114,9 @@ def relationship_view_people(request, slug):
         writer = csv.writer(outfile, delimiter=',',
                             quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
-        writer.writerow(['id', 'parentId', 'name', 'description'])
+        writer.writerow(['id', 'parentId', 'name', 'description', 'url'])
 
+        added_node.append(root_people.get_node_info()[0][:5])
         recurse_write_queue_people(
             root_people, id_list, None, current_layer, layer, writer, added_node)
 
@@ -138,7 +143,11 @@ def relationship_view_people(request, slug):
     #         csv_file.writerow(['','','',''])
 
         # temp holdplace
-        return render(request, "relationship_view_people.html")
+
+        context = {
+            'item': root_people
+        }
+        return render(request, "relationship_view_people.html", context)
 
 
 def create_ref_code():

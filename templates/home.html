@@ -70,7 +70,8 @@
                 class="card-img-top" {% endcomment %}
               <img referrerPolicy="no-referrer"
                 src="{{item.img_url}}"
-                class="card-img-top">
+                class="card-img-top"
+                onerror="this.src='/static/img/peopleAlt.png';">
               <a href="{{ item.get_absolute_url }}">
                 <div class="mask rgba-white-slight"></div>
               </a>
@@ -151,6 +152,17 @@
     {% endif %}
 
   </div>
+
+  <style type="text/css">   
+    body{
+      background-color: #ffffff;
+opacity: 1;
+background: radial-gradient(circle, transparent 20%, #ffffff 20%, #ffffff 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #ffffff 20%, #ffffff 80%, transparent 80%, transparent) 90px 90px, linear-gradient(#9b9de7 7.2px, transparent 7.2px) 0 -3.6px, linear-gradient(90deg, #9b9de7 7.2px, #ffffff 7.2px) -3.6px 0;
+background-size: 180px 180px, 180px 180px, 90px 90px, 90px 90px;
+    }
+</style>
+
+
 </main>
 
 {% endblock content %}
