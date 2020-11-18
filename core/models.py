@@ -157,6 +157,14 @@ class PeopleItem(models.Model):
 
         return [name, sex, url]
 
+    def get_gcn_node_info(self):
+        slug = f'{self.slug}'
+        sex = f'{self.sex}'
+        birthplace = f'{self.birthplace}'
+        birthpday = f'{self.birthday}'
+
+        return [slug, sex, birthplace, birthpday]
+
     def get_country(self):
         raw_str = f'{self.birthplace}'
         country = raw_str.split(',')[0]

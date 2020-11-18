@@ -20,85 +20,137 @@ import csv
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # TODO:
-# random shuffle
+# random shuffle(✔)
 # random number(✔)
-# text link
-# expected value of leaf number
-# image ratate
+# text link(✔)
+# expected value of leaf number(✔)
+# image ratate(✔)
 
 
-def gcn_data_people_write(node, id, pid, clayer, flayer, outfile, added_node):
+def convert_people_sex(people_sex):
+    if(people_sex == "男"):
+        return 1
+    if(people_sex == "女"):
+        return 2
 
-    if(pid is None):
-        outfile.writerow([str(id[0]), "", node.get_node_info()
-                          [0][:5], node.get_node_info()[1], node.get_node_info()[2]])
+    return 0
+
+
+def convert_people_birthday(people_birthday):
+    if "/" in people_birthday:
+        year = people_birthday.split("/")[0]
+        year = int(year)
+        dacade = year//10
+        return dacade
     else:
-        outfile.writerow([str(id[0]), str(pid), node.get_node_info()[
-                         0][:5], node.get_node_info()[1], node.get_node_info()[2]])
+        return 0
 
-    if(clayer > flayer):
+
+# TODO
+birthplace_dict_index = 1
+birthplace_dict_cache = {}
+
+
+def convert_people_birthplace(people_birthplace):
+    if("," in people_birthplace):
+        temp_place = people_birthplace.split(",")[1]
+        if temp_place in birthplace_dict_cache:
+            return birthplace_dict_cache[temp_place]
+        else:
+            birthplace_dict_cache[temp_place] = birthplace_dict_index
+            birthplace_dict_index += 1
+    else:
+        return 0
+
+
+# def gcn_data_people_write(node, id, pid, clayer, flayer, outfile, added_node):
+def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, added_slug_pair):
+    node_info = node.get_gcn_node_info()
+    if(node_info[0] not in added_node):
+        # write info to add_node_info
+        added_node_info.append(node_info)
+        added_node.append(node_info[0])
+    else:
+        pass
+
+    if(clayer >= flayer):  # 超过递归深度直接返回
         return
 
-    origin_id = id[0]
-    id[0] += 1
     rships = node.get_relationship()
-
-    add_num = 0
-
-    leaf_num = flayer-clayer
-
-    if(clayer != 0 and flayer-clayer > 1):
-        leaf_num += random.randint(-leaf_num+1, leaf_num-1)
-
     rships = list(rships)
-
-    random.shuffle(rships)
+    # random.shuffle(rships)
 
     for rship in rships:
-        if(add_num < leaf_num):
-            if(clayer % 2 == 0):
-                # write movie
-                temp_node = rship.get_movie()
-            else:
-                temp_node = rship.get_people()
+        relationship_with_people = rship.get_movie().get_relationship()
+        relationship_with_people = list(relationship_with_people)
+        for rship_pp in relationship_with_people:
+            related_people = rship_pp.get_people()
+            related_people_info = related_people.get_gcn_node_info()
 
-            if(temp_node.get_node_info()[0] in added_node):
-                continue
+            temp_slug_pair = [node_info[0], related_people_info[0]]
+            temp_slug_pair.sort()
+            if(temp_slug_pair not in added_slug_pair):
+                added_slug_pair.append(temp_slug_pair)
             else:
-                added_node.append(temp_node.get_node_info()[0])
-
-            recurse_write_queue_people(
-                temp_node, id, origin_id, clayer + 1, flayer, outfile, added_node)
-            id[0] += 1
-            add_num += 1
-        else:
-            break
+                pass
+            # if(related_people_info[0] in added_node):
+            #     continue
+            gcn_data_people_write(
+                related_people, clayer + 1, flayer, added_node, added_node_info, added_slug_pair)
 
 
 def gcn_data_people(request, slug):
-    layer = 4
+    layer = 1
     current_layer = 0
     root_people = PeopleItem.objects.get(slug=slug)
 
-    id_list = [1]
+    # id_list = [1]
 
     added_node = []
+    added_slug_pair = []
+    added_node_info = []
 
-    with open('./static_in_env/csv/relationship_view_people.csv', 'w', newline='', encoding='utf-8') as outfile:
-        writer = csv.writer(outfile, delimiter=',',
+    # added_node.append(root_people.get_gcn_node_info()[0])  # 加入根节点ID
+    # TODO
+    # add root node info
+
+    gcn_data_people_write(
+        root_people, current_layer, layer, added_node, added_node_info, added_slug_pair)
+
+    # TODO
+    # with open('./static_in_env/gcn_data/people_net.txt', 'w', newline='', encoding='utf-8') as outfile:
+    #     writer = csv.writer(outfile, delimiter='/t',
+    #                         quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+    #     # writer.writerow(['slug','sex', 'birthplace','birthday'])
+
+    with open('./static_in_env/gcn_data/people_info.txt', 'w', newline='', encoding='utf-8') as outfile:
+        writer = csv.writer(outfile, delimiter='\t',
                             quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        for i in added_node_info:
+            writer.writerow(i)
+        # writer.writerow(['slug','sex', 'birthplace','birthday'])
 
-        writer.writerow(['id', 'parentId', 'name',
-                         'description', 'url'])
+    temp_slug_length = len(added_slug_pair)
+    for i in range(temp_slug_length):
+        temp_list_element = added_slug_pair[i]
+        added_slug_pair.append([temp_list_element[1], temp_list_element[0]])
 
-        added_node.append(root_people.get_node_info()[0])
-        recurse_write_queue_people(
-            root_people, id_list, None, current_layer, layer, writer, added_node)
+    added_slug_pair.sort()
 
-        context = {
-            'item': root_people
-        }
-        return render(request, "relationship_view_people.html", context)
+    with open('./static_in_env/gcn_data/people_net.txt', 'w', newline='', encoding='utf-8') as outfile:
+        writer = csv.writer(outfile, delimiter='\t',
+                            quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        for i in added_slug_pair:
+            writer.writerow(i)
+
+        # writer.writerow(['slug','sex', 'birthplace','birthday'])
+
+    # TODO:delete place dict cache
+    birthplace_dict_cache = {}
+
+    messages.info(request, "gcn data generate successfully")
+    return redirect('core:home')
 
 
 deepest_layer = 3
