@@ -16,7 +16,7 @@ function show() {
 
     // generic functions
     var tree = d3.tree()
-        .size([360, 400])
+        .size([360, 420])
         .separation(function (a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
 
     var stratify = d3.stratify();
@@ -239,7 +239,17 @@ function show() {
                 else if (d.x >= 180 && !d.children) return "end"
                 else if (d.x >= 180 && d.children) return "start"
             })
-            .style("font-size", "20px")
+            .style("font-size", function (d) {
+                var tempStrInner = d.data.url;
+                tempStrInner = tempStrInner.substring(tempStrInner.length - 3, tempStrInner.length - 1)
+                // return Math.round(parseInt(tempStrInner) * 0.38) + "px";
+                var textSize = Math.round(parseInt(tempStrInner) * 0.38)
+                if (textSize < 14) {
+                    textSize = 14;
+                }
+                return textSize + "px";
+
+            })
             .transition().duration(2000)
             .attr("transform", function (d) {
                 // called once to determine the target value, and tween the values

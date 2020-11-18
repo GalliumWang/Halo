@@ -16,7 +16,7 @@ function show() {
 
     // generic functions
     var tree = d3.tree()
-        .size([360, 400])
+        .size([360, 420])
         .separation(function (a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
 
     var stratify = d3.stratify();

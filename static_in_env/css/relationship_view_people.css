@@ -47,5 +47,8 @@ body {
 #infoBox{
     border: 5px solid #b480cc;
     border-radius: 90px;
-    padding: 100px;
+    padding-right: 100px;
+    padding-left: 100px;
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
