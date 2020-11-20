@@ -100,8 +100,10 @@ def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, add
     # TODO
     random.shuffle(rships)
 
-    brach_limit = int(random.randint(1, 30)/100 *
-                      len(rship))  # 随机选取1%---->30%的数量
+    # TODO
+    # branch_limit = int(random.randint(1, 30)/100 * len(rships))  # 随机选取1%---->20%的数量
+    branch_limit = random.randint(1, 10)
+
     branch_num = 0
 
     for rship in rships:
@@ -124,14 +126,14 @@ def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, add
             # if(related_people_info[0] in added_node):
             #     continue
 
-            if(brach_num <= brach_limit):
+            if(branch_num <= branch_limit):
                 gcn_data_people_write(
                     related_people, clayer + 1, flayer, added_node, added_node_info, added_slug_pair, birthplace_dict_cache, birthplace_dict_index)
                 branch_num += 1
 
 
 def gcn_data_people(request, slug):
-    layer = 3
+    layer = 6
     current_layer = 0
     root_people = PeopleItem.objects.get(slug=slug)
 
@@ -160,6 +162,20 @@ def gcn_data_people(request, slug):
     #     # writer.writerow(['slug','sex', 'birthplace','birthday'])
 
     # TODO:filter node with invailed birthday info
+    # TODO:filter invalid slug pair
+
+    slug_pair_to_del = []
+    for slug_pair in added_slug_pair:
+        if((slug_pair[0] not in added_node) or (slug_pair[1] not in added_node)):
+            slug_pair_to_del.append(slug_pair)
+
+    new_added_slug_pair = []
+    for slug_pair in added_slug_pair:
+        if(slug_pair not in slug_pair_to_del):
+            new_added_slug_pair.append(slug_pair)
+
+    added_slug_pair = new_added_slug_pair
+
     node_to_del = []
 
     new_added_slug_pair = []
