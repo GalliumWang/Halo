@@ -96,7 +96,13 @@ def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, add
 
     rships = node.get_relationship()
     rships = list(rships)
-    # random.shuffle(rships)
+
+    # TODO
+    random.shuffle(rships)
+
+    brach_limit = int(random.randint(1, 30)/100 *
+                      len(rship))  # 随机选取1%---->30%的数量
+    branch_num = 0
 
     for rship in rships:
         relationship_with_people = rship.get_movie().get_relationship()
@@ -117,12 +123,15 @@ def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, add
                 pass
             # if(related_people_info[0] in added_node):
             #     continue
-            gcn_data_people_write(
-                related_people, clayer + 1, flayer, added_node, added_node_info, added_slug_pair, birthplace_dict_cache, birthplace_dict_index)
+
+            if(brach_num <= brach_limit):
+                gcn_data_people_write(
+                    related_people, clayer + 1, flayer, added_node, added_node_info, added_slug_pair, birthplace_dict_cache, birthplace_dict_index)
+                branch_num += 1
 
 
 def gcn_data_people(request, slug):
-    layer = 2
+    layer = 3
     current_layer = 0
     root_people = PeopleItem.objects.get(slug=slug)
 
