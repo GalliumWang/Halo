@@ -101,15 +101,18 @@ def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, add
     random.shuffle(rships)
 
     # TODO
+    # branch_limit
+    upper_branch_limit = random.randint(1, 5)
+
+    # TODO
     # branch_limit = int(random.randint(1, 30)/100 * len(rships))  # 随机选取1%---->20%的数量
-    branch_limit = random.randint(1, 10)
+    branch_limit = random.randint(1, 5)
 
-    branch_num = 0
-
-    for rship in rships:
+    for rship in rships[upper_branch_limit]:
         relationship_with_people = rship.get_movie().get_relationship()
         relationship_with_people = list(relationship_with_people)
-        for rship_pp in relationship_with_people:
+        random.shuffle(relationship_with_people)
+        for rship_pp in relationship_with_people[branch_limit]:
             try:
                 related_people = rship_pp.get_people()
                 related_people_info = related_people.get_gcn_node_info()
@@ -123,17 +126,15 @@ def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, add
                 added_slug_pair.append(temp_slug_pair)
             else:
                 pass
+
             # if(related_people_info[0] in added_node):
             #     continue
-
-            if(branch_num <= branch_limit):
-                gcn_data_people_write(
-                    related_people, clayer + 1, flayer, added_node, added_node_info, added_slug_pair, birthplace_dict_cache, birthplace_dict_index)
-                branch_num += 1
+            gcn_data_people_write(
+                related_people, clayer + 1, flayer, added_node, added_node_info, added_slug_pair, birthplace_dict_cache, birthplace_dict_index)
 
 
 def gcn_data_people(request, slug):
-    layer = 6
+    layer = 5
     current_layer = 0
     root_people = PeopleItem.objects.get(slug=slug)
 
