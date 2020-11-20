@@ -40,35 +40,53 @@ def convert_people_birthday(people_birthday):
     if "/" in people_birthday:
         year = people_birthday.split("/")[0]
         year = int(year)
-        dacade = year//10
-        return dacade
+        # dacade = year//10-190
+        # return dacade
+        return 2020-year
+
     else:
         return 0
 
 
 # TODO
-birthplace_dict_index = 1
-birthplace_dict_cache = {}
+# birthplace_dict_index = 1
+# birthplace_dict_cache = {}
 
 
-def convert_people_birthplace(people_birthplace):
+def convert_people_birthplace(people_birthplace, birthplace_dict_cache, birthplace_dict_index):
+
+    # TODO
+    # if("," in people_birthplace):
+    #     temp_place = people_birthplace.split(",")[1]
+    #     if temp_place in birthplace_dict_cache:
+    #         return birthplace_dict_cache[temp_place] % 20-10
+    #     else:
+    #         birthplace_dict_cache[temp_place] = birthplace_dict_index[0]
+    #         birthplace_dict_index[0] += 1
+    #         return birthplace_dict_cache[temp_place] % 20-10
+    # else:
+    #     return 0
+
     if("," in people_birthplace):
         temp_place = people_birthplace.split(",")[1]
         if temp_place in birthplace_dict_cache:
             return birthplace_dict_cache[temp_place]
         else:
-            birthplace_dict_cache[temp_place] = birthplace_dict_index
-            birthplace_dict_index += 1
+            birthplace_dict_cache[temp_place] = birthplace_dict_index[0]
+            birthplace_dict_index[0] += 1
+            return birthplace_dict_cache[temp_place]
     else:
         return 0
 
 
 # def gcn_data_people_write(node, id, pid, clayer, flayer, outfile, added_node):
-def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, added_slug_pair):
+def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, added_slug_pair, birthplace_dict_cache, birthplace_dict_index):
     node_info = node.get_gcn_node_info()
     if(node_info[0] not in added_node):
         # write info to add_node_info
-        added_node_info.append(node_info)
+        # added_node_info.append(node_info)
+        added_node_info.append([node_info[0], convert_people_birthplace(
+            node_info[2], birthplace_dict_cache, birthplace_dict_index), convert_people_birthday(node_info[3]), convert_people_sex(node_info[1])])
         added_node.append(node_info[0])
     else:
         pass
@@ -84,11 +102,15 @@ def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, add
         relationship_with_people = rship.get_movie().get_relationship()
         relationship_with_people = list(relationship_with_people)
         for rship_pp in relationship_with_people:
-            related_people = rship_pp.get_people()
-            related_people_info = related_people.get_gcn_node_info()
+            try:
+                related_people = rship_pp.get_people()
+                related_people_info = related_people.get_gcn_node_info()
 
-            temp_slug_pair = [node_info[0], related_people_info[0]]
-            temp_slug_pair.sort()
+                temp_slug_pair = [node_info[0], related_people_info[0]]
+                temp_slug_pair.sort()
+            except Exception:
+                continue
+
             if(temp_slug_pair not in added_slug_pair):
                 added_slug_pair.append(temp_slug_pair)
             else:
@@ -96,11 +118,11 @@ def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, add
             # if(related_people_info[0] in added_node):
             #     continue
             gcn_data_people_write(
-                related_people, clayer + 1, flayer, added_node, added_node_info, added_slug_pair)
+                related_people, clayer + 1, flayer, added_node, added_node_info, added_slug_pair, birthplace_dict_cache, birthplace_dict_index)
 
 
 def gcn_data_people(request, slug):
-    layer = 1
+    layer = 2
     current_layer = 0
     root_people = PeopleItem.objects.get(slug=slug)
 
@@ -114,8 +136,12 @@ def gcn_data_people(request, slug):
     # TODO
     # add root node info
 
+    birthplace_dict_cache = {}
+
+    birthplace_dict_index = [1]
+
     gcn_data_people_write(
-        root_people, current_layer, layer, added_node, added_node_info, added_slug_pair)
+        root_people, current_layer, layer, added_node, added_node_info, added_slug_pair, birthplace_dict_cache, birthplace_dict_index)
 
     # TODO
     # with open('./static_in_env/gcn_data/people_net.txt', 'w', newline='', encoding='utf-8') as outfile:
@@ -123,6 +149,29 @@ def gcn_data_people(request, slug):
     #                         quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
     #     # writer.writerow(['slug','sex', 'birthplace','birthday'])
+
+    # TODO:filter node with invailed birthday info
+    node_to_del = []
+
+    new_added_slug_pair = []
+    new_added_node_info = []
+    for i in added_node_info:
+        if(i[3] == 0 or i[2] == 0 or i[1] == 0):
+            node_to_del.append(i[0])
+        else:
+            new_added_node_info.append(i)
+
+    for i in added_slug_pair:
+        if(i[0] in node_to_del or i[1] in node_to_del):
+            pass
+        else:
+            new_added_slug_pair.append(i)
+
+    new_added_node_info.sort()
+    new_added_slug_pair.sort()
+
+    added_node_info = new_added_node_info
+    added_slug_pair = new_added_slug_pair
 
     with open('./static_in_env/gcn_data/people_info.txt', 'w', newline='', encoding='utf-8') as outfile:
         writer = csv.writer(outfile, delimiter='\t',
@@ -153,7 +202,7 @@ def gcn_data_people(request, slug):
     return redirect('core:home')
 
 
-deepest_layer = 3
+deepest_layer = 5
 
 
 def recurse_write_queue_people(node, id, pid, clayer, flayer, outfile, added_node):
