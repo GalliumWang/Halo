@@ -42,7 +42,7 @@ def convert_people_birthday(people_birthday):
         year = int(year)
         # dacade = year//10-190
         # return dacade
-        return 2020-year
+        return (2020-year)//10
 
     else:
         return 0
@@ -86,10 +86,10 @@ def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, add
         # write info to add_node_info
         # added_node_info.append(node_info)
         added_node_info.append([node_info[0], convert_people_birthplace(
-            node_info[2], birthplace_dict_cache, birthplace_dict_index), convert_people_birthday(node_info[3]), convert_people_sex(node_info[1])])
+            node_info[2], birthplace_dict_cache, birthplace_dict_index), convert_people_sex(node_info[1]), convert_people_birthday(node_info[3])])
         added_node.append(node_info[0])
     else:
-        pass
+        return
 
     if(clayer >= flayer):  # 超过递归深度直接返回
         return
@@ -102,39 +102,44 @@ def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, add
 
     # TODO
     # branch_limit
-    upper_branch_limit = random.randint(1, 5)
+    upper_branch_limit = random.randint(1, 3)  # random.randint(1, 5)
 
     # TODO
     # branch_limit = int(random.randint(1, 30)/100 * len(rships))  # 随机选取1%---->20%的数量
-    branch_limit = random.randint(1, 5)
+    branch_limit = random.randint(1, 4)  # random.randint(1, 5)
 
-    for rship in rships[upper_branch_limit]:
-        relationship_with_people = rship.get_movie().get_relationship()
-        relationship_with_people = list(relationship_with_people)
-        random.shuffle(relationship_with_people)
-        for rship_pp in relationship_with_people[branch_limit]:
-            try:
-                related_people = rship_pp.get_people()
-                related_people_info = related_people.get_gcn_node_info()
+    for rship in rships[:upper_branch_limit]:
 
-                temp_slug_pair = [node_info[0], related_people_info[0]]
-                temp_slug_pair.sort()
-            except Exception:
-                continue
+        try:
+            relationship_with_people = rship.get_movie().get_relationship()
+            relationship_with_people = list(relationship_with_people)
+            random.shuffle(relationship_with_people)
 
-            if(temp_slug_pair not in added_slug_pair):
-                added_slug_pair.append(temp_slug_pair)
-            else:
-                pass
+            for rship_pp in relationship_with_people[:branch_limit]:
+                try:
+                    related_people = rship_pp.get_people()
+                    related_people_info = related_people.get_gcn_node_info()
 
-            # if(related_people_info[0] in added_node):
-            #     continue
-            gcn_data_people_write(
-                related_people, clayer + 1, flayer, added_node, added_node_info, added_slug_pair, birthplace_dict_cache, birthplace_dict_index)
+                    temp_slug_pair = [node_info[0], related_people_info[0]]
+                    temp_slug_pair.sort()
+                except Exception:
+                    continue
+
+                if(temp_slug_pair not in added_slug_pair):
+                    added_slug_pair.append(temp_slug_pair)
+                else:
+                    pass
+
+                # if(related_people_info[0] in added_node):
+                #     continue
+                gcn_data_people_write(
+                    related_people, clayer + 1, flayer, added_node, added_node_info, added_slug_pair, birthplace_dict_cache, birthplace_dict_index)
+        except Exception:
+            continue
 
 
 def gcn_data_people(request, slug):
-    layer = 5
+    layer = 9
     current_layer = 0
     root_people = PeopleItem.objects.get(slug=slug)
 
