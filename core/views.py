@@ -27,6 +27,11 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 # image ratate(✔)
 
 
+def one_hot_encode(index_num, total_num):
+    one_hot_list = [0] * index_num + [1] + [0] * (total_num - index_num)
+    return one_hot_list
+
+
 def convert_people_sex(people_sex):
     if(people_sex == "男"):
         return 1
@@ -204,11 +209,14 @@ def gcn_data_people(request, slug):
     added_node_info = new_added_node_info
     added_slug_pair = new_added_slug_pair
 
+    # TODO add one hot endoe
+    birthplace_num = len(birthplace_dict_cache)
     with open('./static_in_env/gcn_data/people_info.txt', 'w', newline='', encoding='utf-8') as outfile:
         writer = csv.writer(outfile, delimiter='\t',
                             quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for i in added_node_info:
-            writer.writerow(i)
+            writer.writerow([i[0]] + one_hot_encode(i[1],
+                                                    birthplace_num) + [i[2]] + [i[3]])
         # writer.writerow(['slug','sex', 'birthplace','birthday'])
 
     temp_slug_length = len(added_slug_pair)
