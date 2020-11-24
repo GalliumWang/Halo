@@ -20,13 +20,13 @@ function show() {
 
 
     d3.text('/static/csv/relationship_area_view_people.csv', function (raw) {
-        var data = d3.dsvFormat(";").parse(raw)
+        var data = d3.dsvFormat("\t").parse(raw)
 
         // convert population and arrea to a number
         data = data.map(function (el) {
-            el.Population = +el.Population;
-            el.Area = +el.Area;
-            el.Density = el.Population / el.Area;
+            el.rate = +el.rate;
+            el.rate1 = +el.rate1;
+            el.rate2 = el.rate2;
 
             if (el.Density === Infinity) el.Density = 0;
             return el;
@@ -34,7 +34,7 @@ function show() {
 
         // group entries using nest and create hierarchy per continent
         var entries = d3.nest()
-            .key(function (d) { return d.Continent; })
+            .key(function (d) { return d.layer; })
             .entries(data);
 
         // setup the tree generator
@@ -80,7 +80,7 @@ function show() {
 
 
         // generate a population oriented tree.
-        var properties = ['Population', 'Area', 'Density'];
+        var properties = ['rate', 'rate1', 'rate2'];
 
         // trigger the first property
         onclick();
@@ -94,13 +94,15 @@ function show() {
             // convert it to a tree
             tree(root);
 
+            var properties_to_display_name = { "rate": "GCN1", "rate1": "GCN2", "rate2": "GCN3" }
+
             // add a header
-            var header = d3.select("h1").text("Showing " + properties[2]);
+            var header = d3.select("h1").text(properties_to_display_name[properties[2]]);
 
             // we only print out the leaves, leaves are the nodes
             // without children.
             // Object consistency: https://bost.ocks.org/mike/constancy/
-            var groups = chart.selectAll(".node").data(root.leaves(), function (d) { return d.data['Area'] })
+            var groups = chart.selectAll(".node").data(root.leaves(), function (d) { return d.data['name'] })
 
             // for the newgroups we add a g, and set some behavior.
             var newGroups = groups
@@ -170,7 +172,7 @@ function show() {
                     return function (t) {
                         d3.select(node).html(function (d) {
                             var newHeight = interpolator(t);
-                            return '<div data-height="' + newHeight + '"  style="height: ' + newHeight + '" class="node-name"><p>' + d.data['Country (en)'] + '</p></div>'
+                            return '<div data-height="' + newHeight + '"  style="height: ' + newHeight + '" class="node-name"><p style="font-size:20px;">' + d.data['name'].split(" ")[0] + '</p></div>'
                         })
                     }
                 });
@@ -189,9 +191,10 @@ function show() {
         function mouseover(d) {
             div.style("display", "inline");
             div.html("<ul>" +
-                "<li><strong>Name:</strong> " + d.data['Country (en)'] + " </li>" +
-                "<li><strong>Population:</strong> " + d.data['Population'] + " </li>" +
-                "<li><strong>Area:</strong> " + d.data['Area'] + " </li>" +
+                "<li><strong>Name:</strong> " + d.data['name'] + " </li>" +
+                "<li><strong>GCN1:</strong> " + d.data['rate'] + " </li>" +
+                "<li><strong>GCN2:</strong> " + d.data['rate1'] + " </li>" +
+                "<li><strong>GCN3:</strong> " + d.data['rate2'] + " </li>" +
                 "</ul>")
         }
 
@@ -202,7 +205,7 @@ function show() {
         }
 
         function mouseout() {
-            div.style("display", "inline");
+            div.style("display", "none");
             //div.style("display", "none");
         }
     });

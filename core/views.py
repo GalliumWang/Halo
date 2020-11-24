@@ -24,9 +24,9 @@ def get_similar_rate(rate_str):
     try:
         rate_num = int(rate_str)
         if(rate_num < 20):
-            rate_num += 20
+            rate_num = random.randint(3, 20)
         elif(rate_num > 80):
-            rate_num -= 20
+            rate_num = random.randint(80, 98)
         return rate_num
     except Exception:
         return random.randint(20, 80)
@@ -35,21 +35,25 @@ def get_similar_rate(rate_str):
 area_view_deepest_layer = 10
 
 
+# TODO make branch num more robust
+
 def recurse_write_queue_people_area(node, clayer, flayer, outfile, added_node):
 
     rate = get_similar_rate(node.get_node_info()[2][-4:-2])
 
-    temp_rate = round(rate * random.uniform(0, 2))
+    temp_rate = round(rate * random.uniform(0.8, 1.2))
 
     rate1 = get_similar_rate(temp_rate)
 
-    temp_rate = round(rate * random.uniform(0, 2))
+    temp_rate = round(rate * random.uniform(0.8, 1.2))
 
     rate2 = get_similar_rate(temp_rate)
 
-    outfile.writerow(
-        [node.get_node_info()[0], node.get_node_info()[1], node.get_node_info()[2], rate, rate1, rate2])
-    if(clayer > flayer):
+    if(clayer > 0):
+        outfile.writerow(
+            [clayer, node.get_node_info()[0], node.get_node_info()[1], node.get_node_info()[2], rate, rate1, rate2])
+
+    if(clayer >= flayer):
         return
 
     rships = node.get_relationship()
