@@ -19,6 +19,11 @@ import csv
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+
+def relationship_area_view_people(request, slug):
+    return render(request, 'relationship_area_view_people.html')
+
+
 # TODO:
 # random shuffle(✔)
 # random number(✔)

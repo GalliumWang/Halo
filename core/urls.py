@@ -21,7 +21,8 @@ from .views import (
     movie_year_view_1,  # data visualization
     relationship_view_people,  # data visualization
     relationship_view_movie,  # data visualization
-    gcn_data_people
+    gcn_data_people,
+    relationship_area_view_people
 )
 
 app_name = 'core'
@@ -62,8 +63,9 @@ urlpatterns = [
          name='relationship_view_movie'),
 
     path('gcn_data_people/<slug>', gcn_data_people,
-         name='gcn_data_people')
+         name='gcn_data_people'),
 
-
+    path('relationship_area_view_people/<slug>', relationship_area_view_people,
+         name='relationship_area_view_people')
 
 ]
