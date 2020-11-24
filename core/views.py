@@ -20,40 +20,53 @@ import csv
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
-area_view_deepest_layer = 6
+def get_similar_rate(rate_str):
+    try:
+        rate_num = int(rate_str)
+        if(rate_num < 20):
+            rate_num += 20
+        elif(rate_num > 80):
+            rate_num -= 20
+        return rate_num
+    except Exception:
+        return random.randint(20, 80)
 
 
-def recurse_write_queue_people_area(node, id, pid, clayer, flayer, outfile, added_node):
+area_view_deepest_layer = 10
 
-    if(pid is None):
-        outfile.writerow([str(id[0]), "", node.get_node_info()
-                          [0][:5], node.get_node_info()[1], node.get_node_info()[2]])
-    else:
-        outfile.writerow([str(id[0]), str(pid), node.get_node_info()[
-                         0][:5], node.get_node_info()[1], node.get_node_info()[2]])
 
+def recurse_write_queue_people_area(node, clayer, flayer, outfile, added_node):
+
+    rate = get_similar_rate(node.get_node_info()[2][-4:-2])
+
+    temp_rate = round(rate * random.uniform(0, 2))
+
+    rate1 = get_similar_rate(temp_rate)
+
+    temp_rate = round(rate * random.uniform(0, 2))
+
+    rate2 = get_similar_rate(temp_rate)
+
+    outfile.writerow(
+        [node.get_node_info()[0], node.get_node_info()[1], node.get_node_info()[2], rate, rate1, rate2])
     if(clayer > flayer):
         return
 
-    origin_id = id[0]
-    id[0] += 1
     rships = node.get_relationship()
 
-    add_num = 0
-
-    leaf_num = flayer-clayer
-
-    if(clayer != 0 and flayer-clayer > 1):
-        leaf_num += random.randint(-leaf_num+1, leaf_num-1)
-
     rships = list(rships)
-
     random.shuffle(rships)
+
+    leaf_num = 1
+
+    if(clayer == 0):
+        leaf_num = 24
+
+    add_num = 0
 
     for rship in rships:
         if(add_num < leaf_num):
             if(clayer % 2 == 0):
-                # write movie
                 temp_node = rship.get_movie()
             else:
                 temp_node = rship.get_people()
@@ -63,9 +76,8 @@ def recurse_write_queue_people_area(node, id, pid, clayer, flayer, outfile, adde
             else:
                 added_node.append(temp_node.get_node_info()[0])
 
-            recurse_write_queue_people(
-                temp_node, id, origin_id, clayer + 1, flayer, outfile, added_node)
-            id[0] += 1
+            recurse_write_queue_people_area(
+                temp_node, clayer + 1, flayer, outfile, added_node)
             add_num += 1
         else:
             break
@@ -76,21 +88,20 @@ def relationship_area_view_people(request, slug):
     current_layer = 0
     root_people = PeopleItem.objects.get(slug=slug)
 
-    id_list = [1]
-
+    # id_list = [1]
     added_node = []
 
     with open('./static_in_env/csv/relationship_area_view_people.csv', 'w', newline='', encoding='utf-8') as outfile:
-        writer = csv.writer(outfile, delimiter=',',
+        writer = csv.writer(outfile, delimiter='\t',
                             quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
-        writer.writerow(['id', 'parentId', 'name',
-                         'description', 'url'])
+        writer.writerow(['layer', 'name',
+                         'img_url', 'url', 'rate', 'rate1', 'rate2'])
 
         added_node.append(root_people.get_node_info()[0])
 
         recurse_write_queue_people_area(
-            root_people, id_list, None, current_layer, layer, writer, added_node)
+            root_people, current_layer, layer, writer, added_node)
 
         context = {
             'item': root_people
