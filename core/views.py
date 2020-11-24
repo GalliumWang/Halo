@@ -20,8 +20,83 @@ import csv
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
+area_view_deepest_layer = 6
+
+
+def recurse_write_queue_people_area(node, id, pid, clayer, flayer, outfile, added_node):
+
+    if(pid is None):
+        outfile.writerow([str(id[0]), "", node.get_node_info()
+                          [0][:5], node.get_node_info()[1], node.get_node_info()[2]])
+    else:
+        outfile.writerow([str(id[0]), str(pid), node.get_node_info()[
+                         0][:5], node.get_node_info()[1], node.get_node_info()[2]])
+
+    if(clayer > flayer):
+        return
+
+    origin_id = id[0]
+    id[0] += 1
+    rships = node.get_relationship()
+
+    add_num = 0
+
+    leaf_num = flayer-clayer
+
+    if(clayer != 0 and flayer-clayer > 1):
+        leaf_num += random.randint(-leaf_num+1, leaf_num-1)
+
+    rships = list(rships)
+
+    random.shuffle(rships)
+
+    for rship in rships:
+        if(add_num < leaf_num):
+            if(clayer % 2 == 0):
+                # write movie
+                temp_node = rship.get_movie()
+            else:
+                temp_node = rship.get_people()
+
+            if(temp_node.get_node_info()[0] in added_node):
+                continue
+            else:
+                added_node.append(temp_node.get_node_info()[0])
+
+            recurse_write_queue_people(
+                temp_node, id, origin_id, clayer + 1, flayer, outfile, added_node)
+            id[0] += 1
+            add_num += 1
+        else:
+            break
+
+
 def relationship_area_view_people(request, slug):
-    return render(request, 'relationship_area_view_people.html')
+    layer = area_view_deepest_layer
+    current_layer = 0
+    root_people = PeopleItem.objects.get(slug=slug)
+
+    id_list = [1]
+
+    added_node = []
+
+    with open('./static_in_env/csv/relationship_area_view_people.csv', 'w', newline='', encoding='utf-8') as outfile:
+        writer = csv.writer(outfile, delimiter=',',
+                            quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        writer.writerow(['id', 'parentId', 'name',
+                         'description', 'url'])
+
+        added_node.append(root_people.get_node_info()[0])
+
+        recurse_write_queue_people_area(
+            root_people, id_list, None, current_layer, layer, writer, added_node)
+
+        context = {
+            'item': root_people
+        }
+
+    return render(request, 'relationship_area_view_people.html', context=context)
 
 
 # TODO:
@@ -296,20 +371,6 @@ def recurse_write_queue_people(node, id, pid, clayer, flayer, outfile, added_nod
         else:
             break
 
-    # else:
-    #     for rship in rships:
-    #         if(clayer % 2 == 0):
-    #             # write movie
-    #             recurse_write_queue_people(
-    #                 rship.get_movie(), id, origin_id, clayer + 1, flayer, outfile, added_node)
-    #             id[0] += 1
-
-    #         else:
-    #             # write people
-    #             recurse_write_queue_people(
-    #                 rship.get_people(), id, origin_id, clayer + 1, flayer, outfile, added_node)
-    #             id[0] += 1
-
 
 def recurse_write_queue_movie(node, id, pid, clayer, flayer, outfile, added_node):
 
@@ -379,31 +440,6 @@ def relationship_view_people(request, slug):
         added_node.append(root_people.get_node_info()[0])
         recurse_write_queue_people(
             root_people, id_list, None, current_layer, layer, writer, added_node)
-
-    # with open('/static_in_env/csv/relationship_view_poeple', mode='w', newline='') as csv_file:
-    #     while(current_layer < layer):
-    #         temp_queue2 = []
-    #         for item in temp_queue:
-    #             for added_item_ship in people_or_movie.get_relationship():
-    #                 if(current_layer % 2 == 0):
-    #                     temp_queue2.append(added_item_ship.get_movie())
-    #                 else:
-    #                     temp_queue2.append(added_item_ship.get_people())
-
-    #             if(current_layer>0):
-    #                 csv_file.writerow(['','','',''])
-
-    #             else:
-    #                 csv_file.writerow(['','','',''])
-
-    #         temp_queue = temp_queue2
-    #         current_layer += 1
-
-    #     for item in temp_queue:
-    #         csv_file.writerow(['','','',''])
-
-        # temp holdplace
-
         context = {
             'item': root_people
         }
