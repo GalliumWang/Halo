@@ -1,6 +1,9 @@
+{% load static %}
+
 <html>
     <head>
         <!-- generic stuff -->
+        <script src="/static/js/jquery-3.5.1.min.js"></script>
         <script src="/static/libs/d3.js"></script>
         <script src="/static/libs/d3-scale-chromatic.v1.min.js"></script>
         <script src="/static/libs/lodash.js"></script>
@@ -11,6 +14,16 @@
         <link rel="stylesheet"
             href="/static/css/relationship_area_view_people.css"
             type="text/css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1,
+            shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>{% block head_title %}{% endblock %}</title>
+        {% block extra_head %}
+        {% endblock %}
+        <link rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     </head>
     <body>
 
@@ -18,6 +31,24 @@
         <div id="output">
             <svg class="chart"></svg>
         </div>
+
+
+        <button id="btn1" class="btn btn-primary btn-md my-0 p" style="position:
+            absolute;left: 1660px;top: 300px;" type="submit">
+            GCN1
+            <i class="fas fa-table"></i>
+        </button>
+        <button id="btn2" class="btn btn-primary btn-md my-0 p" style="position:
+            absolute;left: 1660px;top: 355px;" type="submit">
+            GCN2
+            <i class="fas fa-table"></i>
+        </button>
+        <button id="btn3" class="btn btn-primary btn-md my-0 p" style="position:
+            absolute;left: 1660px;top: 410px;" type="submit">
+            GCN3
+            <i class="fas fa-table"></i>
+        </button>
+
 
         <script>
     (function() {

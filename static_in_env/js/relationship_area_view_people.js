@@ -16,7 +16,8 @@ function show() {
 
     var div = d3.select("body").append("div")
         .attr("class", "tooltip")
-        .style("display", "none");
+        .style("display", "none")
+        .style("opacity", "1");
 
 
     d3.text('/static/csv/relationship_area_view_people.csv', function (raw) {
@@ -83,7 +84,8 @@ function show() {
         var properties = ['rate', 'rate1', 'rate2'];
 
         // trigger the first property
-        onclick();
+        //onclick();
+        onclick_gcn1();
 
         function update(property) {
 
@@ -114,6 +116,13 @@ function show() {
                 .on("mouseout", mouseout)
                 .on("click", onclick);
 
+            var button1 = document.getElementById("btn1").onclick = onclick_gcn1;
+            var button1 = document.getElementById("btn2").onclick = onclick_gcn2;
+            var button1 = document.getElementById("btn3").onclick = onclick_gcn3;
+
+
+
+
             // for the newgroups we also add a rectangle, which is filled.
             // with the color of the continent, and has a simple black border.
             newGroups.append("rect")
@@ -125,7 +134,8 @@ function show() {
             // and we append the foreignObject, with a nested body for the text
             newGroups.append("foreignObject")
                 .append("xhtml:body")
-                .style("margin-left", 0);
+                .style("margin-left", 0)
+                .style("background", "rgba(0, 0, 0, 0)");
 
             // we position the new and updated groups based on the calculated d.x0 and d.y0
             var allGroups = groups.merge(newGroups)
@@ -182,10 +192,27 @@ function show() {
 
 
         function onclick(d) {
-            var currentProp = properties.shift();
-            properties.push(currentProp);
-            update(currentProp);
+            // var currentProp = properties.shift();
+            // properties.push(currentProp);
+            // update(currentProp);
+            window.open(d.data["url"], "_blank");
             mouseout()
+
+        }
+
+        function onclick_gcn1() {
+            var currentProp = "rate";
+            update(currentProp);
+        }
+
+        function onclick_gcn2() {
+            var currentProp = "rate1";
+            update(currentProp);
+        }
+
+        function onclick_gcn3() {
+            var currentProp = "rate2";
+            update(currentProp);
         }
 
         function mouseover(d) {
@@ -195,7 +222,7 @@ function show() {
                 "<li><strong>GCN1:</strong> " + d.data['rate'] + " </li>" +
                 "<li><strong>GCN2:</strong> " + d.data['rate1'] + " </li>" +
                 "<li><strong>GCN3:</strong> " + d.data['rate2'] + " </li>" +
-                "</ul>")
+                "</ul>" + "<img width=\"200px\" referrerpolicy=\"no-referrer\" src=\"" + d.data['img_url'] + "\">")
         }
 
         function mousemove(d) {
@@ -204,9 +231,10 @@ function show() {
                 .style("top", (d3.event.pageY + 20) + "px");
         }
 
+
         function mouseout() {
+            //div.style("display", "inline");
             div.style("display", "none");
-            //div.style("display", "none");
         }
     });
 }
