@@ -131,7 +131,8 @@ function show() {
                 .style("fill", function (d) { return colorScale(d.parent.data.key) })
                 .style("stroke", "black")
                 .attr("width", function (d, i) { return d.x1 - d.x0 })
-                .attr("height", function (d, i) { return d.y1 - d.y0 });
+                .attr("height", function (d, i) { return d.y1 - d.y0 })
+                .attr("rx", 7);
 
             // and we append the foreignObject, with a nested body for the text
             newGroups.append("foreignObject")
