@@ -26,7 +26,6 @@ from .views import (
 )
 
 from .gcn_views import (
-    gcn_view_test
 )
 
 
@@ -74,8 +73,6 @@ urlpatterns = [
          name='relationship_area_view_people'),
 
 
-    path('gcn_view_test/<slug>', gcn_view_test,
-         name='gcn_view_test')
 
 
 ]

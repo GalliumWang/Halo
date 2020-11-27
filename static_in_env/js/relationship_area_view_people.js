@@ -69,6 +69,8 @@ function show() {
             .attr("fill", colorScale)
             .attr("width", 100)
             .attr("height", 20)
+            .attr("rx", 4)
+
 
         legend.selectAll("text")
             .data(colorScale.domain())

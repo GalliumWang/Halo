@@ -18,10 +18,3 @@ from .models import *
 import csv
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
-
-def gcn_view_test(request, slug):
-    context = {
-        'object': Item.objects.get(slug=slug)
-    }
-    return render(request, "product.html", context)
