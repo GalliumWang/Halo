@@ -114,17 +114,16 @@ def gcn_data_movie_write(node, clayer, flayer, added_node, added_node_info, adde
 
     for rship in rships[:upper_branch_limit]:
         try:
-            relationship_with_people = rship.get_people().get_relationship()
-            relationship_with_people = list(relationship_with_people)
+            relationship_with_movie = rship.get_people().get_relationship()
+            relationship_with_movie = list(relationship_with_movie)
+            random.shuffle(relationship_with_movie)
 
-            random.shuffle(relationship_with_people)
-
-            for rship_pp in relationship_with_people[:branch_limit]:
+            for rship_mv in relationship_with_movie[:branch_limit]:
                 try:
-                    related_people = rship_pp.get_people()
-                    related_people_info = related_people.get_gcn_node_info()
+                    related_movie = rship_mv.get_people()
+                    related_movie_info = related_movie.get_gcn_node_info()
 
-                    temp_slug_pair = [node_info[0], related_people_info[0]]
+                    temp_slug_pair = [node_info[0], related_movie_info[0]]
                     temp_slug_pair.sort()
                 except Exception:
                     continue
@@ -134,9 +133,20 @@ def gcn_data_movie_write(node, clayer, flayer, added_node, added_node_info, adde
                 else:
                     pass
                 gcn_data_movie_write(
-                    related_people, clayer + 1, flayer, added_node, added_node_info, added_slug_pair, birthplace_dict_cache, birthplace_dict_index)
+                    related_movie, clayer + 1, flayer, added_node, added_node_info, added_slug_pair,
+                    country_dict_cache, country_dict_index,
+                    category_dict_cache, category_dict_index,
+                    tags_dict_cache, tags_dict_index
+                )
         except Exception:
             continue
+
+
+def check_vailed_node(node_to_check):
+    for info_item in node_to_check:
+        if(not info_item):
+            return False
+    return True
 
 
 def gcn_data_movie(request, slug):
@@ -164,27 +174,24 @@ def gcn_data_movie(request, slug):
         tags_dict_cache, tags_dict_index
     )
 
-    # TODO:don't need modify
+    # remove refered nodes that not in partial network
     slug_pair_to_del = []
     for slug_pair in added_slug_pair:
         if((slug_pair[0] not in added_node) or (slug_pair[1] not in added_node)):
             slug_pair_to_del.append(slug_pair)
-
     new_added_slug_pair = []
     for slug_pair in added_slug_pair:
         if(slug_pair not in slug_pair_to_del):
             new_added_slug_pair.append(slug_pair)
-
     added_slug_pair = new_added_slug_pair
 
     node_to_del = []
-
     new_added_slug_pair = []
     new_added_node_info = []
 
     for i in added_node_info:
-        # TODO need modify
-        if(i[3] == 0 or i[2] == 0 or i[1] == 0):
+        # TODO filter invailed node
+        if(not check_vailed_node(i)):
             node_to_del.append(i[0])
         else:
             new_added_node_info.append(i)
@@ -193,23 +200,30 @@ def gcn_data_movie(request, slug):
         if(i[0] in node_to_del or i[1] in node_to_del):
             pass
         else:
-            new_added_slug_pair.append(i)
+            new_added_slug_pair.append(i)  # filter slug pair again
 
     new_added_node_info.sort()
     new_added_slug_pair.sort()
-
     added_node_info = new_added_node_info
     added_slug_pair = new_added_slug_pair
-    # don't need modify
 
-    birthplace_num = len(birthplace_dict_cache)
+    # convert to onehot coding and write to file
+    country_num = len(country_dict_cache)
+    category_num = len(category_dict_cache)
+    tags_num = len(tags_dict_cache)
+
     with open('./static_in_env/gcn_data/movie_info.txt', 'w', newline='', encoding='utf-8') as outfile:
         writer = csv.writer(outfile, delimiter='\t',
                             quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for i in added_node_info:
-            writer.writerow([i[0]] + one_hot_encode(i[1],
-                                                    birthplace_num) + [i[2]] + [i[3]])
-        # writer.writerow(['slug','sex', 'birthplace','birthday'])
+            writer.writerow(
+                [i[0]] +
+                one_hot_encode(i[1], country_num) +
+                [i[2]] +
+                one_hot_encode([i[3]], category_num) +
+                one_hot_encode([i[4]], tags_num) +
+                [i[5]]
+            )
 
     temp_slug_length = len(added_slug_pair)
     for i in range(temp_slug_length):
