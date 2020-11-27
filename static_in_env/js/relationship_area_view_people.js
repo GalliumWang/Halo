@@ -135,6 +135,7 @@ function show() {
             newGroups.append("foreignObject")
                 .append("xhtml:body")
                 .style("margin-left", 0)
+                .style("padding", "15px")
                 .style("background", "rgba(0, 0, 0, 0)");
 
             // we position the new and updated groups based on the calculated d.x0 and d.y0
