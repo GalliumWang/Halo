@@ -74,8 +74,17 @@ class Item(models.Model):
         name = f'{self.title}'
         sex = self.get_img_url()
         url = self.get_absolute_url()
-
         return [name, sex, url]
+
+    def get_gcn_node_info(self):
+        slug = f'{self.slug}'
+        country = f'{self.country}'
+        year = f'{self.year}'
+        category = f'{self.category}'
+        tags = f'{self.tags}'
+        rating_sum = f'{self.rating_sum}'
+
+        return [slug, country, year, category, tags, rating_sum]
 
     def get_comments(self):
         comments = Comments.objects.filter(movie_slug=self.slug)

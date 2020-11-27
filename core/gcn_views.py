@@ -20,9 +20,10 @@ import csv
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
+# TODO:remove first column
 def one_hot_encode(index_num_list, total_num):
 
-    one_hot_list = [0] * (total_num + 1)  # index start from zero
+    one_hot_list = [0] * (total_num + 1)  # index start from 1
 
     for index in index_num_list:
         one_hot_list[index] = 1
@@ -31,6 +32,10 @@ def one_hot_encode(index_num_list, total_num):
 
 
 def dict_data_generator_slash(dataString, dict_cache, data_index):
+
+    if(dataString == ""):
+        return []
+
     reList = []
     temp_places = dataString.split("/")
 
@@ -40,11 +45,20 @@ def dict_data_generator_slash(dataString, dict_cache, data_index):
         else:
             dict_cache[temp_place] = data_index[0]
             data_index[0] += 1
-            return dict_cache[temp_place]
             reList.append(dict_cache[temp_place])
+
+    return reList
 
 
 def dict_data_generator_comma(dataString, dict_cache, birthplace_dict_index):
+
+    # if(dataString == ""):
+    #     return []
+    if(len(dataString) < 3):  # TODO:cound have better judge option
+        return []
+    else:
+        dataString = dataString[1:-1]  # remove leading '[' and ending ']'
+
     reList = []
     temp_places = dataString.split(",")
 
@@ -54,19 +68,34 @@ def dict_data_generator_comma(dataString, dict_cache, birthplace_dict_index):
         else:
             dict_cache[temp_place] = data_index[0]
             data_index[0] += 1
-            return dict_cache[temp_place]
             reList.append(dict_cache[temp_place])
 
+    return
 
-def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, added_slug_pair, birthplace_dict_cache, birthplace_dict_index):
+
+# FIXME:archived
+# def rm_brackets(raw_str):
+#     if(len(raw)<=2):
+#         return ""
+#     else:
+#         return raw_str[1:-1]
+
+
+def gcn_data_movie_write(node, clayer, flayer, added_node, added_node_info, added_slug_pair,
+                         country_dict_cache, country_dict_index,
+                         category_dict_cache, category_dict_index,
+                         tags_dict_cache, tags_dict_index):
+
     node_info = node.get_gcn_node_info()
+
     if(node_info[0] not in added_node):
         added_node_info.append([
             node_info[0],
-            convert_people_birthplace(
-                node_info[2], birthplace_dict_cache, birthplace_dict_index),
-            convert_people_sex(node_info[1]),
-            convert_people_birthday(node_info[3])
+            dict_data_generator_slash(node_info[1]),  # country info
+            node_info[2],  # year info
+            dict_data_generator_slash(node_info[3]),  # categroy info
+            dict_data_generator_comma(node_info[4]),  # tags info
+            node_info[5],   # rating_sum info
         ])
 
         added_node.append(node_info[0])
@@ -78,16 +107,16 @@ def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, add
 
     rships = node.get_relationship()
     rships = list(rships)
-
     random.shuffle(rships)
+
     upper_branch_limit = random.randint(1, 3)
     branch_limit = random.randint(1, 4)
 
     for rship in rships[:upper_branch_limit]:
-
         try:
-            relationship_with_people = rship.get_movie().get_relationship()
+            relationship_with_people = rship.get_people().get_relationship()
             relationship_with_people = list(relationship_with_people)
+
             random.shuffle(relationship_with_people)
 
             for rship_pp in relationship_with_people[:branch_limit]:
@@ -104,10 +133,7 @@ def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, add
                     added_slug_pair.append(temp_slug_pair)
                 else:
                     pass
-
-                # if(related_people_info[0] in added_node):
-                #     continue
-                gcn_data_people_write(
+                gcn_data_movie_write(
                     related_people, clayer + 1, flayer, added_node, added_node_info, added_slug_pair, birthplace_dict_cache, birthplace_dict_index)
         except Exception:
             continue
@@ -116,7 +142,7 @@ def gcn_data_people_write(node, clayer, flayer, added_node, added_node_info, add
 def gcn_data_movie(request, slug):
     layer = 2
     current_layer = 0
-    root_people = Item.objects.get(slug=slug)
+    root_movie = Item.objects.get(slug=slug)
 
     added_node = []
     added_slug_pair = []
@@ -131,19 +157,14 @@ def gcn_data_movie(request, slug):
     tags_dict_cache = {}
     tags_dict_index = [1]
 
-    gcn_data_people_write(
-        root_people, current_layer, layer, added_node, added_node_info, added_slug_pair, birthplace_dict_cache, birthplace_dict_index)
+    gcn_data_movie_write(
+        root_movie, current_layer, layer, added_node, added_node_info, added_slug_pair,
+        country_dict_cache, country_dict_index,
+        category_dict_cache, category_dict_index,
+        tags_dict_cache, tags_dict_index
+    )
 
-    # TODO
-    # with open('./static_in_env/gcn_data/people_net.txt', 'w', newline='', encoding='utf-8') as outfile:
-    #     writer = csv.writer(outfile, delimiter='/t',
-    #                         quotechar='"', quoting=csv.QUOTE_MINIMAL)
-
-    #     # writer.writerow(['slug','sex', 'birthplace','birthday'])
-
-    # TODO:filter node with invailed birthday info
-    # TODO:filter invalid slug pair
-
+    # TODO:don't need modify
     slug_pair_to_del = []
     for slug_pair in added_slug_pair:
         if((slug_pair[0] not in added_node) or (slug_pair[1] not in added_node)):
@@ -160,7 +181,9 @@ def gcn_data_movie(request, slug):
 
     new_added_slug_pair = []
     new_added_node_info = []
+
     for i in added_node_info:
+        # TODO need modify
         if(i[3] == 0 or i[2] == 0 or i[1] == 0):
             node_to_del.append(i[0])
         else:
@@ -177,10 +200,10 @@ def gcn_data_movie(request, slug):
 
     added_node_info = new_added_node_info
     added_slug_pair = new_added_slug_pair
+    # don't need modify
 
-    # TODO add one hot endoe
     birthplace_num = len(birthplace_dict_cache)
-    with open('./static_in_env/gcn_data/people_info.txt', 'w', newline='', encoding='utf-8') as outfile:
+    with open('./static_in_env/gcn_data/movie_info.txt', 'w', newline='', encoding='utf-8') as outfile:
         writer = csv.writer(outfile, delimiter='\t',
                             quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for i in added_node_info:
@@ -194,17 +217,11 @@ def gcn_data_movie(request, slug):
         added_slug_pair.append([temp_list_element[1], temp_list_element[0]])
 
     added_slug_pair.sort()
-
-    with open('./static_in_env/gcn_data/people_net.txt', 'w', newline='', encoding='utf-8') as outfile:
+    with open('./static_in_env/gcn_data/movie_net.txt', 'w', newline='', encoding='utf-8') as outfile:
         writer = csv.writer(outfile, delimiter='\t',
                             quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for i in added_slug_pair:
             writer.writerow(i)
 
-        # writer.writerow(['slug','sex', 'birthplace','birthday'])
-
-    # TODO:delete place dict cache
-    birthplace_dict_cache = {}
-
-    messages.info(request, "gcn data generate successfully")
-    return redirect('core:home')
+    messages.info(request, "movie gcn data generate successfully")
+    return redirect('core:home')  # to be changed
