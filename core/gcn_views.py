@@ -28,7 +28,7 @@ def one_hot_encode(index_num_list, total_num):
     for index in index_num_list:
         one_hot_list[index] = 1
 
-    return one_hot_encode
+    return one_hot_list
 
 
 def dict_data_generator_slash(dataString, dict_cache, data_index):
@@ -50,10 +50,8 @@ def dict_data_generator_slash(dataString, dict_cache, data_index):
     return reList
 
 
-def dict_data_generator_comma(dataString, dict_cache, birthplace_dict_index):
+def dict_data_generator_comma(dataString, dict_cache, data_index):
 
-    # if(dataString == ""):
-    #     return []
     if(len(dataString) < 3):  # TODO:cound have better judge option
         return []
     else:
@@ -70,7 +68,7 @@ def dict_data_generator_comma(dataString, dict_cache, birthplace_dict_index):
             data_index[0] += 1
             reList.append(dict_cache[temp_place])
 
-    return
+    return reList
 
 
 # FIXME:archived
@@ -91,10 +89,13 @@ def gcn_data_movie_write(node, clayer, flayer, added_node, added_node_info, adde
     if(node_info[0] not in added_node):
         added_node_info.append([
             node_info[0],
-            dict_data_generator_slash(node_info[1]),  # country info
+            dict_data_generator_slash(
+                node_info[1], country_dict_cache, country_dict_index),  # country info
             node_info[2],  # year info
-            dict_data_generator_slash(node_info[3]),  # categroy info
-            dict_data_generator_comma(node_info[4]),  # tags info
+            dict_data_generator_slash(
+                node_info[3], category_dict_cache, category_dict_index),  # categroy info
+            dict_data_generator_comma(
+                node_info[4], tags_dict_cache, tags_dict_index),  # tags info
             node_info[5],   # rating_sum info
         ])
 
@@ -109,8 +110,11 @@ def gcn_data_movie_write(node, clayer, flayer, added_node, added_node_info, adde
     rships = list(rships)
     random.shuffle(rships)
 
-    upper_branch_limit = random.randint(1, 3)
-    branch_limit = random.randint(1, 4)
+    # TODO
+    # the num of node extended from each node is not fixed
+
+    upper_branch_limit = 2  # random.randint(1, 3)
+    branch_limit = 2  # random.randint(1, 4)
 
     for rship in rships[:upper_branch_limit]:
         try:
@@ -120,7 +124,7 @@ def gcn_data_movie_write(node, clayer, flayer, added_node, added_node_info, adde
 
             for rship_mv in relationship_with_movie[:branch_limit]:
                 try:
-                    related_movie = rship_mv.get_people()
+                    related_movie = rship_mv.get_movie()
                     related_movie_info = related_movie.get_gcn_node_info()
 
                     temp_slug_pair = [node_info[0], related_movie_info[0]]
@@ -150,7 +154,7 @@ def check_vailed_node(node_to_check):
 
 
 def gcn_data_movie(request, slug):
-    layer = 2
+    layer = 5
     current_layer = 0
     root_movie = Item.objects.get(slug=slug)
 
@@ -220,8 +224,8 @@ def gcn_data_movie(request, slug):
                 [i[0]] +
                 one_hot_encode(i[1], country_num) +
                 [i[2]] +
-                one_hot_encode([i[3]], category_num) +
-                one_hot_encode([i[4]], tags_num) +
+                one_hot_encode(i[3], category_num) +
+                one_hot_encode(i[4], tags_num) +
                 [i[5]]
             )
 

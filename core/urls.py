@@ -74,7 +74,7 @@ urlpatterns = [
          name='relationship_area_view_people'),
 
     path('gcn_data_movie/<slug>', gcn_data_movie,
-         name='gcn_data_movie'),
+         name='gcn_data_movie')
 
 
 
