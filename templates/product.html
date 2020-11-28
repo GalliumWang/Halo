@@ -6,7 +6,9 @@
 
 {% load static %}
 
+<div style="display: none;" id="loader"></div>
 <main class="mt-5 pt-4">
+
   <div class="container dark-grey-text mt-5">
 
     <!--Grid row-->
@@ -78,7 +80,7 @@
             btn-secondary
             btn-md my-0 p"
             style="margin-left:20px;margin-right:20px;"
-            onclick="alert('myFunc executed');window.location='{{ object.get_treeview_url }}'">
+            onclick="show_loader();hide_main_page();window.location='{{ object.get_treeview_url }}'">
             探索该电影
           </a>
 
@@ -233,5 +235,8 @@
 
 
 </main>
+
+
+
 
 {% endblock content %}
