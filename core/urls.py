@@ -36,8 +36,6 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('people', PeopleView.as_view(), name='people'),
     path('people/<slug>/', PeopleItemDetailView.as_view(), name='people-detail'),
-
-
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('order-summary/', OrderSummaryView.as_view(), name='order-summary'),
     path('add-to-bookmark/<slug>/', add_to_bookmark, name='add-to-bookmark'),

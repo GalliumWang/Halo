@@ -7,6 +7,8 @@ from django_countries.fields import CountryField
 import os
 import requests
 
+from add_on.SentimentPolarityAnalysis.spa.classifiers import DictClassifier
+
 
 # TODO: add image cache
 
@@ -60,12 +62,11 @@ class Item(models.Model):
     category = models.CharField(max_length=50, default="NULL")  # 电影类别
     slug = models.SlugField()  # 唯一标识符
 
-    # def get_node_info(self):
-    #     name = f'{self.title}'
-    #     sex = self.get_img_url()
-    #     url = self.get_absolute_url()
-
-    #     return [name, sex, url]
+    # TODO to be refactored
+    def comrate(self, str_to_check):
+        ds = DictClassifier()
+        result = ds.analyse_sentence(str_to_check)
+        return result
 
     def get_treeview_url(self):
         return f"/relationship_view_movie/{self.slug}"
