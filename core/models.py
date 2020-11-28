@@ -139,6 +139,37 @@ class Item(models.Model):
         # return "/static/img/"+img_name
         return f"{self.img_url}"
 
+    def get_primary_country(self):
+        country = f'{self.country}'
+        country = country.split("/")[0]
+
+        return country
+
+    def get_short_title(self):
+        title = f'{self.title}'
+        title = title.split(" ")[0]
+
+        return title
+
+    def get_rating_icon(self):
+        rating = f'{self.rating}'
+        rating = int(float(rating))
+        rating_to_icon_dict = {
+            0: "grin-beam-sweat",
+            1: "tired",
+            2: "meh-rolling-eyes",
+            3: "meh",
+            4: "meh-blank",
+            5: "grin",
+            6: "grin-alt",
+            7: "grin-beam",
+            8: "grimace",
+            9: "grin-stars",
+            10: "grin-hearts"
+        }
+
+        return rating_to_icon_dict[rating]
+
 
 class PeopleItem(models.Model):
     name = models.CharField(max_length=30)  # 影人名字
