@@ -37,7 +37,7 @@ analyse_sentence(sentence, runout_filepath=None, print_show=False)
 
 运行实例：
     
-    d = DictClassifier()
+    ds = DictClassifier()
     a_sentence = "剁椒鸡蛋好咸,土豆丝很好吃"
     result = ds.analyse_sentence(a_sentence)
     print(result)

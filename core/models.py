@@ -63,7 +63,7 @@ class Item(models.Model):
     slug = models.SlugField()  # 唯一标识符
 
     # TODO to be refactored
-    def comrate(self, str_to_check):
+    def parseSentence(self, str_to_check):
         ds = DictClassifier()
         result = ds.analyse_sentence(str_to_check)
         return result
