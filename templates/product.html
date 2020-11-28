@@ -74,10 +74,11 @@
             style="margin-left:20px;margin-right:20px;">
             移出收藏
           </a>
-          <a href="{{ object.get_treeview_url }}" class="btn
+          <a href="javascript:void(0)" class="btn
             btn-secondary
             btn-md my-0 p"
-            style="margin-left:20px;margin-right:20px;">
+            style="margin-left:20px;margin-right:20px;"
+            onclick="alert('myFunc executed');window.location='{{ object.get_treeview_url }}'">
             探索该电影
           </a>
 
