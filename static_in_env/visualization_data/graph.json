@@ -1,0 +1,36 @@
+{
+  "links": [
+    {
+      "source": "c_1",
+      "target": "l_2"
+    },
+    {
+      "source": "c_2",
+      "target": "l_2"
+    }
+  ],
+  "characters": [
+    {
+      "id": "c_1",
+      "name": "DOCTOR ZITSOFSKY",
+      "type": "character"
+    },
+    {
+      "id": "c_2",
+      "name": "Lewis Clark",
+      "type": "character"
+    }
+  ],
+  "locations": [
+    {
+      "id": "l_2",
+      "name": "Car",
+      "type": "location"
+    },
+    {
+      "id": "l_4",
+      "name": "Auditorium",
+      "type": "location"
+    }
+  ]
+}
