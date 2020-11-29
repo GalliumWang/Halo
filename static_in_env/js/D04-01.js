@@ -39,7 +39,7 @@ function show() {
         var logoAndText = svg.append("g")
             .attr("class", "title")
         logoAndText.node().appendChild(xml.documentElement);
-        logoAndText.select("svg g")//.attr("transform", "translate(-5 0) scale(0.04)")
+        logoAndText.select("svg g").on("click", onclick_custom)//.attr("transform", "translate(-5 0) scale(0.04)")
 
         // also append some text
         logoAndText.append("text").text("movie&person network")
@@ -246,7 +246,15 @@ function show() {
 
             // gui.add(config, 'simulate');
         }
+
+
+
+
     });
+
+    function onclick_custom() {
+        window.location.href = "/";
+    }
 }
 
 
