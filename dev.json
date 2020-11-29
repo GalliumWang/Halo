@@ -1,0 +1,66 @@
+{
+  "links": [
+    {
+      "source": "c_1022643",
+      "target": "l_1291561"
+    },
+    {
+      "source": "c_1040990",
+      "target": "l_1291550"
+    },
+    {
+      "source": "c_1040990",
+      "target": "l_1939414"
+    },
+    {
+      "source": "c_1025146",
+      "target": "l_1939414"
+    }
+  ],
+  "characters": [
+    {
+      "id": "c_1022643",
+      "name": "黛维·切斯 Daveigh Chase",
+      "img_url": "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1378370214.92.webp",
+      "type": "location"
+    },
+    {
+      "id": "c_1040990",
+      "name": "李冰冰 Bingbing Li",
+      "img_url": "https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p37168.webp",
+      "type": "location"
+    },
+    {
+      "id": "c_1025146",
+      "name": "李连杰 Jet Li",
+      "img_url": "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p48974.webp",
+      "type": "location"
+    }
+  ],
+  "locations": [
+    {
+      "id": "l_1291560",
+      "name": "龙猫 となりのトトロ",
+      "img_url": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2540924496.webp",
+      "type": "location"
+    },
+    {
+      "id": "l_1291561",
+      "name": "千与千寻 千と千尋の神隠し",
+      "img_url": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p1606727862.webp",
+      "type": "location"
+    },
+    {
+      "id": "l_1291550",
+      "name": "天下无贼",
+      "img_url": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2191934463.webp",
+      "type": "location"
+    },
+    {
+      "id": "l_1939414",
+      "name": "功夫之王 The Forbidden Kingdom",
+      "img_url": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p887405912.webp",
+      "type": "location"
+    }
+  ]
+}

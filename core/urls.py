@@ -29,6 +29,10 @@ from .gcn_views import (
     gcn_data_movie
 )
 
+from .visualization_views import (
+    marked_item_net_view
+)
+
 
 app_name = 'core'
 
@@ -72,8 +76,9 @@ urlpatterns = [
          name='relationship_area_view_people'),
 
     path('gcn_data_movie/<slug>', gcn_data_movie,
-         name='gcn_data_movie')
+         name='gcn_data_movie'),
 
+    path('marked_item_net_view', marked_item_net_view, name='marked_item_net_view')
 
 
 
