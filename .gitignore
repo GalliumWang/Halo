@@ -2,3 +2,4 @@ db.sqlite3
 DATA/
 static_in_env/gcn_data/
 static_in_env/csv/
+core/__pycache__/
