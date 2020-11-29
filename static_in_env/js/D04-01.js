@@ -121,13 +121,24 @@ function show() {
             .attr("class", function (d) { return d.type })
             .attr("stroke", "black");
 
-        // for the characters add an image
+        //for the characters add an image
         node.filter(function (d) { return d.type === 'character' })
             .append("image")
-            .attr("xlink:href", function (d) { return "/static/visualization_data/images/" + d.name.toLowerCase() + ".png"; })
+            .attr("xlink:href", function (d) { return "https://images.weserv.nl/?url=" + d.img_url.substring(8); })  //function (d) { return d.img_url; })
             .attr("height", 50)
             .attr("width", 50)
             .attr("transform", "translate(-25 -15)")
+
+
+        // node.filter(function (d) { return d.type === 'character' })
+        //     .append("img")
+        //     .attr("href", function (d) { return d.img_url; })
+        //     .attr("referrerPolicy", "no-referrer")
+        //     .attr("height", 50)
+        //     .attr("width", 50)
+        //     .attr("transform", "translate(-25 -15)")
+
+
 
         // add the text at the bottom
         var svgGroup = svg.append("g").attr("class", "output-text")

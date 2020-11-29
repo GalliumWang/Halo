@@ -77,6 +77,14 @@ class Item(models.Model):
         url = self.get_absolute_url()
         return [name, sex, url]
 
+    # FIXME correct for better form
+
+    def get_node_info_sp(self):
+        slug = f'{self.slug}'
+        name = f'{self.title}'
+        url = self.get_img_url()
+        return [slug, name, url]
+
     def get_gcn_node_info(self):
         slug = f'{self.slug}'
         country = f'{self.country}'
@@ -187,6 +195,12 @@ class PeopleItem(models.Model):
     description = models.TextField(null=True)  # 电影概述
 
     slug = models.SlugField()  # 唯一标识符
+
+    def get_node_info_sp(self):
+        slug = f'{self.slug}'
+        name = f'{self.name}'
+        url = self.get_img_url()
+        return [slug, name, url]
 
     def get_treeview_url(self):
         return f"/relationship_view_people/{self.slug}"

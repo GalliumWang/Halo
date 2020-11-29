@@ -20,45 +20,45 @@
   "characters": [
     {
       "id": "c_1022643",
-      "name": "\u9edb\u7ef4\u00b7\u5207\u65af Daveigh Chase",
+      "name": "黛维·切斯 Daveigh Chase",
       "img_url": "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1378370214.92.webp",
-      "type": "character"
+      "type": "location"
     },
     {
       "id": "c_1040990",
-      "name": "\u674e\u51b0\u51b0 Bingbing Li",
+      "name": "李冰冰 Bingbing Li",
       "img_url": "https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p37168.webp",
-      "type": "character"
+      "type": "location"
     },
     {
       "id": "c_1025146",
-      "name": "\u674e\u8fde\u6770 Jet Li",
+      "name": "李连杰 Jet Li",
       "img_url": "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p48974.webp",
-      "type": "character"
+      "type": "location"
     }
   ],
   "locations": [
     {
       "id": "l_1291560",
-      "name": "\u9f99\u732b \u3068\u306a\u308a\u306e\u30c8\u30c8\u30ed",
+      "name": "龙猫 となりのトトロ",
       "img_url": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2540924496.webp",
       "type": "location"
     },
     {
       "id": "l_1291561",
-      "name": "\u5343\u4e0e\u5343\u5bfb \u5343\u3068\u5343\u5c0b\u306e\u795e\u96a0\u3057",
+      "name": "千与千寻 千と千尋の神隠し",
       "img_url": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p1606727862.webp",
       "type": "location"
     },
     {
       "id": "l_1291550",
-      "name": "\u5929\u4e0b\u65e0\u8d3c",
+      "name": "天下无贼",
       "img_url": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2191934463.webp",
       "type": "location"
     },
     {
       "id": "l_1939414",
-      "name": "\u529f\u592b\u4e4b\u738b The Forbidden Kingdom",
+      "name": "功夫之王 The Forbidden Kingdom",
       "img_url": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p887405912.webp",
       "type": "location"
     }
