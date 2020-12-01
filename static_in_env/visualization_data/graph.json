@@ -13,8 +13,32 @@
       "target": "l_1939414"
     },
     {
+      "source": "c_1040990",
+      "target": "l_1949811"
+    },
+    {
       "source": "c_1025146",
       "target": "l_1939414"
+    },
+    {
+      "source": "c_1053618",
+      "target": "l_1949811"
+    },
+    {
+      "source": "c_1041007",
+      "target": "l_1291550"
+    },
+    {
+      "source": "c_1017207",
+      "target": "l_1291550"
+    },
+    {
+      "source": "c_1000905",
+      "target": "l_1291550"
+    },
+    {
+      "source": "c_1054424",
+      "target": "l_1291550"
     }
   ],
   "characters": [
@@ -34,6 +58,36 @@
       "id": "c_1025146",
       "name": "\u674e\u8fde\u6770 Jet Li",
       "img_url": "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p48974.webp",
+      "type": "character"
+    },
+    {
+      "id": "c_1053618",
+      "name": "\u9648\u5764 Kun Chen",
+      "img_url": "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p42814.webp",
+      "type": "character"
+    },
+    {
+      "id": "c_1041007",
+      "name": "\u5218\u82e5\u82f1 Ren\u00e9 Liu",
+      "img_url": "https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1518407475.38.webp",
+      "type": "character"
+    },
+    {
+      "id": "c_1017207",
+      "name": "\u5f90\u5e06 Fan Xu",
+      "img_url": "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p43516.webp",
+      "type": "character"
+    },
+    {
+      "id": "c_1000905",
+      "name": "\u845b\u4f18 You Ge",
+      "img_url": "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p46.webp",
+      "type": "character"
+    },
+    {
+      "id": "c_1054424",
+      "name": "\u5218\u5fb7\u534e Andy Lau",
+      "img_url": "https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1378956633.91.webp",
       "type": "character"
     }
   ],
@@ -60,6 +114,12 @@
       "id": "l_1939414",
       "name": "\u529f\u592b\u4e4b\u738b The Forbidden Kingdom",
       "img_url": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p887405912.webp",
+      "type": "location"
+    },
+    {
+      "id": "l_1949811",
+      "name": "\u4e91\u6c34\u8c23",
+      "img_url": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p787213786.webp",
       "type": "location"
     }
   ]
