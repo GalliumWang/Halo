@@ -6,3 +6,4 @@
 6. add sentence analysis(in development)
 7. docs create
 8. Visualization cache
+9. remove debug toolbar
