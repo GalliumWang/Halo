@@ -20,6 +20,22 @@ import csv
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
+def convert_ratingsum_data(rating_sum):
+    rating_sum = int(rating_sum)
+    if(rating_sum < 1000):
+        return 1
+    elif(rating_sum < 5000):
+        return 2
+    elif(rating_sum < 30000):
+        return 3
+    elif (rating_sum < 100000):
+        return 4
+    elif(rating_sum < 250000):
+        return 5
+    else:
+        return 6
+
+
 # TODO:remove first column
 def one_hot_encode(index_num_list, total_num):
 
