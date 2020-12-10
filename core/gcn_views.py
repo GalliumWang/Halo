@@ -112,7 +112,7 @@ def gcn_data_movie_write(node, clayer, flayer, added_node, added_node_info, adde
                 node_info[3], category_dict_cache, category_dict_index),  # categroy info
             dict_data_generator_comma(
                 node_info[4], tags_dict_cache, tags_dict_index),  # tags info
-            node_info[5],   # rating_sum info
+            convert_ratingsum_data(node_info[5]),   # rating_sum info
         ])
 
         added_node.append(node_info[0])
