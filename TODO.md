@@ -10,19 +10,6 @@
 推荐
 评分预测
 
-TODO
-电影图卷积
-演员电影图卷积
 
-TODO
-图卷积不做聚类，而是连续输出
-对演员出生地先按大类编码(uncompleted)/独热图输出（completed）
-
-TODO 对图卷积较深层较小权重
-    
-dropedge
-多种视图效果对比
-
-FIXME
-稀疏矩阵到稠密矩阵的性能损失
-将标签本身放入特征值中（completed）
+TODO:
+    data generate API
