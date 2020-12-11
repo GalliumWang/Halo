@@ -7,3 +7,5 @@
 7. docs create
 8. Visualization cache
 9. remove debug toolbar
+10. database optimazation
+11. publish release v0.8.0
