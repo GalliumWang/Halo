@@ -84,7 +84,10 @@
               <h5>
                 <strong>
                   <a href="{{ item.get_absolute_url }}" class="dark-grey-text">
-                    {{item.get_short_title }}<br>
+                    <p style="width: 215px;
+                      white-space: nowrap;
+                      overflow: hidden;
+                      text-overflow: ellipsis;">{{item.get_short_title }}</p><br>
                     <span
                       class="badge badge-pill {{item.get_country_label}}-color">{{item.year}}</span>
                     <span
