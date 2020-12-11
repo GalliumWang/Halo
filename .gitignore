@@ -4,3 +4,4 @@ static_in_env/gcn_data/
 static_in_env/csv/
 core/__pycache__/
 static_in_env/visualization_data/
+/.idea/
